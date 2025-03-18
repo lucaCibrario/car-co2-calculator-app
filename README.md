@@ -16,7 +16,7 @@ When car segment and engine type are selected, default values from the database 
 
 Those are the setting for the definition of the current car that has to be replaced.
 
-#### **Car Segment**
+-#### **Car Segment**
 Defines the size and type of the vehicle.  
 - **Segment B**: Small cars, typically hatchbacks (e.g., Ford Fiesta, VW Polo).  
 - **Segment C**: Compact cars, larger than Segment B (e.g., VW Golf, Honda Civic).  
