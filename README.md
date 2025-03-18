@@ -16,41 +16,81 @@ When car segment and engine type are selected, default values from the database 
 
 Those are the setting for the definition of the current car that has to be replaced.
 
--#### **Car Segment**
+- **Car Segment**
 Defines the size and type of the vehicle.  
-- **Segment B**: Small cars, typically hatchbacks (e.g., Ford Fiesta, VW Polo).  
-- **Segment C**: Compact cars, larger than Segment B (e.g., VW Golf, Honda Civic).  
-- **SUV (Sport Utility Vehicle)**: Larger vehicles with higher ground clearance (e.g., Toyota RAV4, BMW X5).  
+  - **Segment B**: Small cars, typically hatchbacks (e.g., Ford Fiesta, VW Polo).  
+  - **Segment C**: Compact cars, larger than Segment B (e.g., VW Golf, Honda Civic).  
+  - **SUV (Sport Utility Vehicle)**: Larger vehicles with higher ground clearance (e.g., Toyota RAV4, BMW X5).  
 
-#### **Engine Type**
+- **Engine Type**
 Specifies the fuel type and emission standard of the vehicle. Examples:
-- **Gasoline (Euro 4, Euro 5, Euro 6)**  
-- **Diesel (Euro 4, Euro 5, Euro 6)**  
-- **Mild/Full Hybrid**: These vehicles combine an internal combustion engine (ICE) with an electric motor to improve fuel efficiency.
-- **Plug-in Hybrid (PHEV)**: A hybrid vehicle with a larger battery that can be charged from an external power source.
-- **BEV (Full-electric)**  
+  - **Gasoline (Euro 4, Euro 5, Euro 6)**  
+  - **Diesel (Euro 4, Euro 5, Euro 6)**  
+  - **Mild/Full Hybrid**: These vehicles combine an internal combustion engine (ICE) with an electric motor to improve fuel efficiency.
+  - **Plug-in Hybrid (PHEV)**: A hybrid vehicle with a larger battery that can be charged from an external power source.
+  - **BEV (Full-electric)**  
 
-#### **Current Mileage (km)** - Compulsory
+-**Current Mileage (km)** - Compulsory
 The total number of kilometers the car has been driven.  
 
-#### **ICE Consumption (l/100km)**
+-**ICE Consumption (l/100km)**
 The fuel consumption of the **internal combustion engine (ICE)**, measured in liters per 100 km.  
 
-#### **EM Consumption (kWh/100km)**
+-**EM Consumption (kWh/100km)**
 The energy consumption of the **electric motor (EM)**, measured in kilowatt-hours per 100 km.  
 *(Only applicable for hybrid and electric vehicles.)*  
 
-#### **Car Mass (kg)**
+-**Car Mass (kg)**
 The total weight of the car in kilograms.  
 
-#### **Second-hand Car Mileage (km)**
+-**Second-hand Car Mileage (km)**
 If the car was bought used, this is the mileage recorded at the time of purchase. 
 To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.
 
-#### **Country (or Region)**
+-**Country (or Region)**
 The location where the car is mainly driven. 
 
+-**Reset** button
+To restore the default values.
+
 ### New Car(s)
+
+In this form the alternative to the current car, which we want to evaluate, can be defined.
+New cars are added by pushing the green **Plus** button, while the red **Minus** is used to cancel them. 
+Each new car car be quickly defined through its segment and engine type, but additional parameter can be found in a dialog box triggered by the **Gear** button.
+
+- **Car Segment**
+
+- **Engine Type**
+  
+-**Second-hand Car Mileage (km)**
+
+-**Keep until EoL (End of Life)**
+To define if the car will be kept until the end of life or just for a limited amount of kilometers/years
+The default is **True**.
+
+-**Car Mass (kg)**
+
+-**ICE Consumption (l/100km)**
+
+-**EM Consumption (kWh/100km)**
+
+-**Reset** button
+To restore the default values.
+
+-**Save** button
+To save the current changes (if the window is closed without saving, all the changes are not stored).
+
+### Analysis Settings
+
+Below are listed additional general data used to compute the carbon footprint of cars.
+
+-**Average annual mileage (km)**
+It is the average distance that is usually driven by the user each year.
+
+-**Maintenance**
+Used to define if the compulsory and extraordinary maintenance is done to the vehicles.
+This affects the degradation of the consumptions over time.
 
 
 
