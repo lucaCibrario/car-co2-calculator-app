@@ -106,8 +106,11 @@ During the **Use** phase, emissions are proportional to the car fuel/electricity
 
 #### Tables
 
-Used to report quantitative data
-
+They provide quantitative data of the carbon footprint hystories at specific points/mileage.
+The analysis can be made at:
+- **Break Even Point**
+It is the point (if it exists) where the plot of a new cars crosses that of the old one
+- **Specific Mileage (km)**
 
 
 
