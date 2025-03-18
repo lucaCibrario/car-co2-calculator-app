@@ -30,27 +30,27 @@ Specifies the fuel type and emission standard of the vehicle. Examples:
   - **Plug-in Hybrid (PHEV)**: A hybrid vehicle with a larger battery that can be charged from an external power source.
   - **BEV (Full-electric)**  
 
--**Current Mileage (km)** - Compulsory
+- **Current Mileage (km)** - Compulsory
 The total number of kilometers the car has been driven.  
 
--**ICE Consumption (l/100km)**
+- **ICE Consumption (l/100km)**
 The fuel consumption of the **internal combustion engine (ICE)**, measured in liters per 100 km.  
 
--**EM Consumption (kWh/100km)**
+- **EM Consumption (kWh/100km)**
 The energy consumption of the **electric motor (EM)**, measured in kilowatt-hours per 100 km.  
 *(Only applicable for hybrid and electric vehicles.)*  
 
--**Car Mass (kg)**
+- **Car Mass (kg)**
 The total weight of the car in kilograms.  
 
--**Second-hand Car Mileage (km)**
+- **Second-hand Car Mileage (km)**
 If the car was bought used, this is the mileage recorded at the time of purchase. 
 To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.
 
--**Country (or Region)**
+- **Country (or Region)**
 The location where the car is mainly driven. 
 
--**Reset** button
+- **Reset** button
 To restore the default values.
 
 ### New Car(s)
@@ -63,35 +63,50 @@ Each new car car be quickly defined through its segment and engine type, but add
 
 - **Engine Type**
   
--**Second-hand Car Mileage (km)**
+- **Second-hand Car Mileage (km)**
 
--**Keep until EoL (End of Life)**
+- **Keep until EoL (End of Life)**
 To define if the car will be kept until the end of life or just for a limited amount of kilometers/years
 The default is **True**.
 
--**Car Mass (kg)**
+- **Car Mass (kg)**
 
--**ICE Consumption (l/100km)**
+- **ICE Consumption (l/100km)**
 
--**EM Consumption (kWh/100km)**
+- **EM Consumption (kWh/100km)**
 
--**Reset** button
+- **Reset** button
 To restore the default values.
 
--**Save** button
+- **Save** button
 To save the current changes (if the window is closed without saving, all the changes are not stored).
 
 ### Analysis Settings
 
 Below are listed additional general data used to compute the carbon footprint of cars.
 
--**Average annual mileage (km)**
+- **Average annual mileage (km)**
 It is the average distance that is usually driven by the user each year.
 
--**Maintenance**
+- **Maintenance**
 Used to define if the compulsory and extraordinary maintenance is done to the vehicles.
 This affects the degradation of the consumptions over time.
 
+### Carbon Footprint Analysis
+
+This is the output section, where the CO_2 hystories are displayed and analysed to make comparisons find the best alternative.
+The computation is started by pressing the **Compute Carbon Footprint** button below the input section.
+
+#### Plot
+
+The carbon footprint of each car is represented graphically to provide a quick evaluation of the cars selected for the analysis.
+The hystory of the current car starts from kilometer 0, while those of the other cars from the mileage defined under **Current Mileage (km)**, that represents the moment of the change.
+The carbon footprint hystory of each car starts with a step, whose high represent the CO_2 emitted in the **production and EoL** phases, scaled by the responsibility of the current user for those emissions. Second-hand cars and those ones, which are not kept until EoL, will have a responsibily factor lower than one.
+During the **Use** phase, emissions are proportional to the car fuel/electricity consumptions, that increase with an exponential law as the mileage grows due to the degradation of the components vehicles.
+
+#### Tables
+
+Used to report quantitative data
 
 
 
