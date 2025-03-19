@@ -7,6 +7,7 @@ ECO Car Replacement Advisor helps you decide whether to replace your current car
 1. Download the latest `.exe` file from this repository.
 2. Double-click the file to run the application.
 
+
 ## Usage
 
 Below are the details required to evaluate whether to replace or keep your current car.
@@ -51,7 +52,8 @@ These are the settings for defining the current car that may be replaced.
   The location where the car is mainly driven.  
 
 - **Reset** button  
-  To restore the default values.  
+  To restore the default values.
+  
 
 ### **New Car(s)**
 
@@ -71,6 +73,7 @@ Each new car can be quickly defined through its segment and engine type, but add
 - **Reset** button: Restores default values.  
 - **Save** button: Saves the current changes. *(If the window is closed without saving, all changes will be lost.)*  
 
+
 ### **Analysis Settings**
 
 These additional settings affect the carbon footprint computation.
@@ -85,6 +88,7 @@ These additional settings affect the carbon footprint computation.
 
 This is the output section, where **CO₂ history** is displayed and analyzed to make comparisons and find the best alternative.  
 The computation starts when the **Compute Carbon Footprint** button is pressed.
+
 
 #### **Plot**
 The carbon footprint of each car is represented graphically to provide a quick evaluation of the selected cars.  
@@ -112,8 +116,10 @@ These tables provide **quantitative** data for the carbon footprint history at s
   - `CO₂ Footprint (t CO₂)`: Total emissions in tons at the given mileage.  
   - `Distance from BE (km)`: Difference in kilometers from the given mileage and the BEP (if it exists).  
 
+
 #### **Help Button**  
 Links to this README file.  
+
 
 #### **Options**  
 Additional settings for analysis:  
@@ -121,6 +127,7 @@ Additional settings for analysis:
 - **BEV Car Life Span (km)**: Expected lifespan of a BEV.  
 - **Save** button: Stores new values.  
 - **Reset** button: Restores default values.  
+
 
 ---
 
