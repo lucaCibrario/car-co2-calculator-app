@@ -100,8 +100,7 @@ These tables provide **quantitative** data for the carbon footprint history at s
 
 - **Break-Even Point (BEP)**  
   If it exists, the **BEP** is the mileage where the new car's emissions cross the old car's emissions, making the new car the better option.  
-
-  **Columns in BEP Table:**  
+  Fields in BEP Table:
   - `Car`: The vehicle reference.  
   - `BE (km)`: Distance to the BEP from when the old car was bought.  
   - `BE (t CO₂)`: Emissions in tons from the old car purchase.  
