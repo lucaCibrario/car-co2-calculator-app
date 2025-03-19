@@ -138,7 +138,7 @@ Every time a field is changed, the **Compute Carbon Footprint** button must be p
 
 For any questions or further information, please contact:
 
-- **Ing. Luca Cibrario** – PhD Student, DIMEAS, Politecnico di Torino  
+- **Eng. Luca Cibrario** – PhD Student, DIMEAS, Politecnico di Torino  
   📧 [luca.cibrario@polito.it](mailto:luca.cibrario@polito.it)
 
 - **Prof. Chiara Gastaldi** – Associate Professor, DIMEAS, Politecnico di Torino  
