@@ -134,5 +134,16 @@ Additional settings for analysis:
 ## **Notes**
 Every time a field is changed, the **Compute Carbon Footprint** button must be pressed to update results.
 
+## Contact
+
+For any questions or further information, please contact:
+
+- **Ing. Luca Cibrario** – PhD Student, DIMEAS, Politecnico di Torino  
+  📧 [luca.cibrario@polito.it](mailto:luca.cibrario@polito.it)
+
+- **Prof. Chiara Gastaldi** – Associate Professor, DIMEAS, Politecnico di Torino  
+  📧 [chiara.gastaldi@polito.it](mailto:chiara.gastaldi@polito.it)
+
+
 ## **License**
 *This software is currently private and distributed only to selected users.*
