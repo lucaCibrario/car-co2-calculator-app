@@ -148,5 +148,3 @@ For any questions or further information, please contact:
 ## **License**
 *This software is currently private and distributed only to selected users.*
 
-
-BOIA
