@@ -1,6 +1,6 @@
 # ECO Car Replacement Advisor
 
-ECO Car Replacement Advisor helps you decide whether to replace your current car with a new one or continue repairing it based on economic and ecological factors.
+ECO Car Replacement Advisor helps you decide whether to replace your current car with a new one or continue repairing it based on the analysis of carbon footprint.
 
 ## Installation
 
@@ -10,123 +10,123 @@ ECO Car Replacement Advisor helps you decide whether to replace your current car
 ## Usage
 
 Below are the details required to evaluate whether to replace or keep your current car.
-When car segment and engine type are selected, default values from the database are used to fill the fields related to consumptions and vehicle mass.
+When the car segment and engine type are selected, default values from the database are used to fill the fields related to consumptions and vehicle mass.
 
-### Current Car Details
+### **Current Car Details**
 
-Those are the setting for the definition of the current car that has to be replaced.
+These are the settings for defining the current car that may be replaced.
 
-- **Car Segment**
-Defines the size and type of the vehicle.  
+- **Car Segment**  
+  Defines the size and type of the vehicle.  
   - **Segment B**: Small cars, typically hatchbacks (e.g., Ford Fiesta, VW Polo).  
   - **Segment C**: Compact cars, larger than Segment B (e.g., VW Golf, Honda Civic).  
   - **SUV (Sport Utility Vehicle)**: Larger vehicles with higher ground clearance (e.g., Toyota RAV4, BMW X5).  
 
-- **Engine Type**
-Specifies the fuel type and emission standard of the vehicle. Examples:
+- **Engine Type**  
+  Specifies the fuel type and emission standard of the vehicle. Examples:  
   - **Gasoline (Euro 4, Euro 5, Euro 6)**  
   - **Diesel (Euro 4, Euro 5, Euro 6)**  
-  - **Mild/Full Hybrid**: These vehicles combine an internal combustion engine (ICE) with an electric motor to improve fuel efficiency.
-  - **Plug-in Hybrid (PHEV)**: A hybrid vehicle with a larger battery that can be charged from an external power source.
+  - **Mild/Full Hybrid**: These vehicles combine an internal combustion engine (ICE) with an electric motor to improve fuel efficiency.  
+  - **Plug-in Hybrid (PHEV)**: A hybrid vehicle with a larger battery that can be charged from an external power source.  
   - **BEV (Full-electric)**  
 
-- **Current Mileage (km)** - Compulsory
-The total number of kilometers the car has been driven.  
+- **Current Mileage (km) (Compulsory)**  
+  The total number of kilometers the car has been driven.  
 
-- **ICE Consumption (l/100km)**
-The fuel consumption of the **internal combustion engine (ICE)**, measured in liters per 100 km.  
+- **ICE Consumption (l/100km)**  
+  The fuel consumption of the **internal combustion engine (ICE)**, measured in liters per 100 km.  
 
-- **EM Consumption (kWh/100km)**
-The energy consumption of the **electric motor (EM)**, measured in kilowatt-hours per 100 km.  
-*(Only applicable for hybrid and electric vehicles.)*  
+- **EM Consumption (kWh/100km)**  
+  The energy consumption of the **electric motor (EM)**, measured in kilowatt-hours per 100 km.  
+  *(Only applicable for hybrid and electric vehicles.)*  
 
-- **Car Mass (kg)**
-The total weight of the car in kilograms.  
+- **Car Mass (kg)**  
+  The total weight of the car in kilograms.  
 
-- **Second-hand Car Mileage (km)**
-If the car was bought used, this is the mileage recorded at the time of purchase. 
-To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.
+- **Second-hand Car Mileage (km)**  
+  If the car was bought used, this is the mileage recorded at the time of purchase.  
+  To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.  
 
-- **Country (or Region)**
-The location where the car is mainly driven. 
+- **Country (or Region)**  
+  The location where the car is mainly driven.  
 
-- **Reset** button
-To restore the default values.
+- **Reset** button  
+  To restore the default values.  
 
-### New Car(s)
+### **New Car(s)**
 
-In this form the alternative to the current car, which we want to evaluate, can be defined.
-New cars are added by pushing the green **Plus** button, while the red **Minus** is used to cancel them. 
-Each new car car be quickly defined through its segment and engine type, but additional parameter can be found in a dialog box triggered by the **Gear** button.
+This section allows defining the alternative(s) to the current car for evaluation.  
+New cars are added by pressing the green **Plus** button, while the red **Minus** button removes them.  
+Each new car can be quickly defined through its segment and engine type, but additional parameters can be set via a dialog box triggered by the **Gear** button.
 
-- **Car Segment**
+- **Car Segment**  
+- **Engine Type**  
+- **Second-hand Car Mileage (km)**  
+- **Keep until EoL (End of Life)**  
+  Defines whether the car will be kept until the end of its life or just for a limited number of kilometers/years.  
+  *(Default: `True`.)*  
+- **Car Mass (kg)**  
+- **ICE Consumption (l/100km)**  
+- **EM Consumption (kWh/100km)**  
+- **Reset** button: Restores default values.  
+- **Save** button: Saves the current changes. *(If the window is closed without saving, all changes will be lost.)*  
 
-- **Engine Type**
-  
-- **Second-hand Car Mileage (km)**
+### **Analysis Settings**
 
-- **Keep until EoL (End of Life)**
-To define if the car will be kept until the end of life or just for a limited amount of kilometers/years
-The default is **True**.
+These additional settings affect the carbon footprint computation.
 
-- **Car Mass (kg)**
+- **Average annual mileage (km)**  
+  The average distance the user drives each year.  
+- **Maintenance**  
+  Defines whether compulsory and extraordinary maintenance is performed.  
+  This affects the degradation of fuel/electric consumption over time.  
 
-- **ICE Consumption (l/100km)**
+### **Carbon Footprint Analysis**
 
-- **EM Consumption (kWh/100km)**
+This is the output section, where **CO₂ history** is displayed and analyzed to make comparisons and find the best alternative.  
+The computation starts when the **Compute Carbon Footprint** button is pressed.
 
-- **Reset** button
-To restore the default values.
+#### **Plot**
+The carbon footprint of each car is represented graphically to provide a quick evaluation of the selected cars.  
+- The **history of the current car** starts from kilometer `0`.  
+- The **history of alternative cars** starts from the mileage defined in **Current Mileage (km)** (representing the point of replacement).  
 
-- **Save** button
-To save the current changes (if the window is closed without saving, all the changes are not stored).
+Each carbon footprint history starts with a **step**, whose height represents the CO₂ emissions from the **Production and End-of-Life (EoL)** phases, scaled by the responsibility of the current user.  
+- **Second-hand cars** and those **not kept until EoL** have a **responsibility factor** lower than 1.  
+- During the **Use Phase**, emissions increase exponentially as the car ages due to component degradation.  
 
-### Analysis Settings
+#### **Tables**
+These tables provide **quantitative** data for the carbon footprint history at specific mileage points.
 
-Below are listed additional general data used to compute the carbon footprint of cars.
+- **Break-Even Point (BEP)**  
+  If it exists, the **BEP** is the mileage where the new car's emissions cross the old car's emissions, making the new car the better option.  
 
-- **Average annual mileage (km)**
-It is the average distance that is usually driven by the user each year.
+  **Columns in BEP Table:**  
+  - `Car`: The vehicle reference.  
+  - `BE (km)`: Distance to the BEP from when the old car was bought.  
+  - `BE (t CO₂)`: Emissions in tons from the old car purchase.  
+  - `ΔBE (km)`: Distance between the BEP and the moment the old car is changed.  
+  - `ΔBE (t CO₂)`: Emissions in tons from the replacement point.  
 
-- **Maintenance**
-Used to define if the compulsory and extraordinary maintenance is done to the vehicles.
-This affects the degradation of the consumptions over time.
+- **Specific Mileage (km)**  
+  Data at any given mileage:  
+  - `CO₂ Footprint (t CO₂)`: Total emissions in tons at the given mileage.  
+  - `Distance from BE (km)`: Difference in kilometers from the given mileage and the BEP (if it exists).  
 
-### Carbon Footprint Analysis
+#### **Help Button**  
+Links to this README file.  
 
-This is the output section, where the CO_2 hystories are displayed and analysed to make comparisons find the best alternative.
-The computation is started by pressing the **Compute Carbon Footprint** button below the input section.
-
-#### Plot
-
-The carbon footprint of each car is represented graphically to provide a quick evaluation of the cars selected for the analysis.
-The hystory of the current car starts from kilometer 0, while those of the other cars from the mileage defined under **Current Mileage (km)**, that represents the moment of the change.
-The carbon footprint hystory of each car starts with a step, whose high represent the CO_2 emitted in the **production and EoL** phases, scaled by the responsibility of the current user for those emissions. Second-hand cars and those ones, which are not kept until EoL, will have a responsibily factor lower than one.
-During the **Use** phase, emissions are proportional to the car fuel/electricity consumptions, that increase with an exponential law as the mileage grows due to the degradation of the components vehicles.
-
-#### Tables
-
-They provide quantitative data of the carbon footprint hystories at specific points/mileage.
-The analysis can be made at:
-- **Break Even Point**
-It is the point (if it exists) where the plot of a new cars crosses that of the old one
-- **Specific Mileage (km)**
-
-
-
-
-
-
-
-
-
-#### Example Scenario
-> Suppose you have a **10-year-old car** with high fuel consumption. The tool will analyze whether a switch to an **electric vehicle** or a **hybrid** is financially and ecologically beneficial.
-
-## License
-
-*This software is currently private and distributed only to selected users.*
+#### **Options**  
+Additional settings for analysis:  
+- **ICE Car Life Span (km)**: Expected lifespan of an ICE car.  
+- **BEV Car Life Span (km)**: Expected lifespan of a BEV.  
+- **Save** button: Stores new values.  
+- **Reset** button: Restores default values.  
 
 ---
 
-Would you like additional formatting options, such as **bold text, tables, or lists**?
+## **Notes**
+Every time a field is changed, the **Compute Carbon Footprint** button must be pressed to update results.
+
+## **License**
+*This software is currently private and distributed only to selected users.*
