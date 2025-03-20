@@ -59,7 +59,9 @@ These are the settings for defining the current car that may be replaced.
 
 This section allows defining the alternative(s) to the current car for evaluation.  
 New cars are added by pressing the green **Plus** button, while the red **Minus** button removes them.  
-Each new car can be quickly defined through its segment and engine type, but additional parameters can be set via a dialog box triggered by the **Gear** button.
+Each new car can be quickly defined through its **segment** and **engine type**, but additional parameters can be set via a dialog box triggered by the **Gear** button.
+
+The available parameters are listed below:
 
 - **Car Segment**  
 - **Engine Type**  
@@ -134,5 +136,17 @@ Additional settings for analysis:
 ## **Notes**
 Every time a field is changed, the **Compute Carbon Footprint** button must be pressed to update results.
 
+## Contact
+
+For any questions or further information, please contact:
+
+- **Eng. Luca Cibrario** – PhD Student, DIMEAS, Politecnico di Torino  
+  📧 [luca.cibrario@polito.it](mailto:luca.cibrario@polito.it)
+
+- **Prof. Chiara Gastaldi** – Associate Professor, DIMEAS, Politecnico di Torino  
+  📧 [chiara.gastaldi@polito.it](mailto:chiara.gastaldi@polito.it)
+
+
 ## **License**
 *This software is currently private and distributed only to selected users.*
+
