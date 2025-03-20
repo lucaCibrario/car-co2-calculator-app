@@ -59,7 +59,9 @@ These are the settings for defining the current car that may be replaced.
 
 This section allows defining the alternative(s) to the current car for evaluation.  
 New cars are added by pressing the green **Plus** button, while the red **Minus** button removes them.  
-Each new car can be quickly defined through its segment and engine type, but additional parameters can be set via a dialog box triggered by the **Gear** button.
+Each new car can be quickly defined through its **segment** and **engine type**, but additional parameters can be set via a dialog box triggered by the **Gear** button.
+
+The available parameters are listed below:
 
 - **Car Segment**  
 - **Engine Type**  
