@@ -1,8 +1,27 @@
 # ECO Car Replacement Advisor
 
+## Table of Contents
+
+- [Overview](#overview)
+  - [Key Features](#key-features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Input Parameters](#input-parameters)
+  - [Current Car Details](#current-car-details)
+  - [New Car(s)](#new-cars)
+  - [Analysis Settings](#analysis-settings)
+- [Carbon Footprint Analysis](#carbon-footprint-analysis)
+  - [Plot](#plot)
+  - [Tables](#tables)
+- [Help Menu](#help-menu)
+- [Notes](#notes)
+- [Contact](#contact)
+- [License](#license)
+
+
 ## Overview
 
-ECO Car Replacement Advisor is a tool for assessing the environmental impact of replacing a car with a more sustainable model. It helps users compare carbon emissions from their current vehicle against potential new cars by modeling both production and use-phase emissions. The tool provides intuitive visualizations and tabular output to facilitate analysis and decision-making.
+ECO Car Replacement Advisor is a tool for assessing the environmental impact of replacing a car with a more sustainable model. It helps users compare carbon emissions from their current vehicle against potential new cars by modeling their entire life-cycles. The tool provides intuitive visualizations and tabular output to facilitate analysis and decision-making.
 
 ### Key Features
 
@@ -29,6 +48,7 @@ Follow these simple steps to get started:
 - Click "Compute Carbon Footprint" – the app will generate interactive plots and data tables showing CO₂ emission trends, break-even points, and more.
 
 Need more information? Check the full documentation below for detailed guidance.
+
 
 
 ## Input Parameters
@@ -69,7 +89,8 @@ These are the settings for defining the current car that may be replaced.
   To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.
   This parameter affects the responsibility of the current user for the production and EoL of the car.
 
-  **Note**
+  **Note**:
+
   The **Second-hand Car Mileage (km)** must be lower than **Current Mileage (km)**.
 
 - **ICE Consumption (l/100km)**  
@@ -79,30 +100,30 @@ These are the settings for defining the current car that may be replaced.
   The energy consumption of the **electric motor (EM)**, measured in kilowatt-hours per 100 km.  
   *(Only applicable for hybrid and electric vehicles.)*
 
-- **Driving Share (Plug-in Hybrid only)**
+- **Driving Share (Plug-in Hybrid only)**  
   The Driving Share field represents the proportion of kilometers driven in electric mode for plug-in hybrid vehicles. It is a decimal value between 0 and 1, where:
   - 1.0 means the vehicle is driven entirely in electric mode.
   - 0.0 means it is driven entirely using the internal combustion engine.
 
-- **Car Mass (kg)**  
+- **Car Mass (kg)**   
   The total weight of the car in kilograms. 
 
 - **Car Production-EoL Footprint (kgCO₂/kg)**
   The Car Production Footprint represents the total carbon emissions associated with the manufacturing and end-of-life treatment of the vehicle.
   This value accounts for the environmental impact of raw material extraction, vehicle assembly, and disposal or recycling processes at the end of the car's lifecycle.
 
-- **WTT (Well-to-Tank) Fuel Footprint (gCO₂/l)**
+- **WTT (Well-to-Tank) Fuel Footprint (gCO₂/l)**  
   The Well-to-Tank (WTT) Emissions refer to the amount of CO₂ released during the extraction, refining, and distribution of fuel before it reaches the vehicle’s tank.
   WTT emissions are a crucial component of the fuel life cycle and vary based on the type of fuel and energy source.
 
-- **TTW (Tank-to-Wheel) Fuel Footprint (gCO₂/l)**
+- **TTW (Tank-to-Wheel) Fuel Footprint (gCO₂/l)**   
   The Tank-to-Wheel (TTW) Emissions capture the CO₂ emissions produced when the fuel is combusted inside the vehicle engine during driving.
   TTW represents the direct operational emissions of the vehicle and depends primarily on fuel type and engine efficiency.
 
 - **Reset** button  
   To restore the default values.
 
-- **BEV Battery Settings (BEVs only)**
+- **BEV Battery Settings (BEVs only):**
   - **Battery Capacity (kWh)**
     Indicates the total energy storage capacity of the vehicle's battery. This value is used to estimate emissions associated with battery production.
   - **Battery Production Footprint (kgCO₂/kWh)**
@@ -125,11 +146,12 @@ The available parameters are listed below (the description of each field can be 
 - **Engine Type**
 
 - **Intended end-of-usage (mileage/age)**  
-  Defines whether the car will be kept until the end of its life or just for a limited number of kilometers/years. The value represents the car's total lifespan from the moment of production until retirement or resale.
-  If the option **Keep until EoL** is checked, the editable field is filled with the default expected life-time of the vehicle.
+  Defines whether the car will be kept until the end of its life or just for a limited number of kilometers/years. The value represents the car's total lifespan from the moment of production until retirement or resale.  
+  If the option **Keep until EoL** is checked, the editable field is filled with the default expected life-time of the vehicle. 
   Otherwise a shorter lifetime than the default can be defined, either in kilometers or years, allowing for more flexible and realistic modeling of vehicle usage patterns.
 
-  **Note**
+  **Note**:
+
   **Intended end-of-usage (mileage/age)** must be greater than **Second-hand Car Mileage (km)**.
   If the age of the vehicle at the EoL is provided instead of the mileage, the total mileage covered by the car is estimated through the **Average Annual Mileage (km)** value.
   This parameter affects the responsibility of the current user for the production and EoL of the car.
@@ -148,7 +170,7 @@ The available parameters are listed below (the description of each field can be 
 
 - **TTW (Tank-to-Wheel) Fuel Footprint (gCO₂/l)**
 
-- **BEV Battery Settings (BEVs only)**
+- **BEV Battery Settings (BEVs only):**
   - **Battery Capacity (kWh)**
   - **Battery Production Footprint (kgCO₂/kWh)**
   - **Estimated life time (km)**
@@ -177,6 +199,7 @@ These additional settings affect the carbon footprint computation.
   - **Save** button: Stores new values. *(If the window is closed without saving, all changes will be lost.)*
 
 
+
 ## **Carbon Footprint Analysis**
 
 This is the output section, where **CO₂ Footprint History** is displayed and analyzed to make comparisons and find the best alternative.  
@@ -184,9 +207,9 @@ The computation starts when the **Compute Carbon Footprint** button is pressed.
 
 The available units of measure for the analysis are:
 - **years**
-- **kilometers**
-When the units of measure are changed, the plot, tables and **Output data analysis options** are updated accordingly.
-Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
+- **kilometers**  
+  When the units of measure are changed, the plot, tables and **Output data analysis options** are updated accordingly.
+  Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
 
 
 ### **Plot**
@@ -223,10 +246,11 @@ Data can be retrieved at:
   - `Distance from BE (years/km)`: Difference in years/kilometers from the given mileage and the BEP (if it exists).  
 
 
+
 ## **Help Menu**  
 Through the **Help Menu** the user can access:
-- the **Full Documentation** in PDF format
-- a quick intro to get started
+- The **Full Documentation** in PDF format
+- A quick intro to get started
 
 
 ---
@@ -234,6 +258,7 @@ Through the **Help Menu** the user can access:
 ## **Notes**
 - Every time a field in the input section is changed, the **Compute Carbon Footprint** button must be pressed to update results.
 - If the plot does not update automatically, it is sufficient to move the mouse on its area.
+
 
 ## Contact
 
