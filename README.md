@@ -89,8 +89,7 @@ These are the settings for defining the current car that may be replaced.
   To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.
   This parameter affects the responsibility of the current user for the production and EoL of the car.
 
-  **Note**:
-
+  **Note**:   
   The **Second-hand Car Mileage (km)** must be lower than **Current Mileage (km)**.
 
 - **ICE Consumption (l/100km)**  
@@ -108,7 +107,7 @@ These are the settings for defining the current car that may be replaced.
 - **Car Mass (kg)**   
   The total weight of the car in kilograms. 
 
-- **Car Production-EoL Footprint (kgCO₂/kg)**
+- **Car Production-EoL Footprint (kgCO₂/kg)** 
   The Car Production Footprint represents the total carbon emissions associated with the manufacturing and end-of-life treatment of the vehicle.
   This value accounts for the environmental impact of raw material extraction, vehicle assembly, and disposal or recycling processes at the end of the car's lifecycle.
 
@@ -150,8 +149,7 @@ The available parameters are listed below (the description of each field can be 
   If the option **Keep until EoL** is checked, the editable field is filled with the default expected life-time of the vehicle. 
   Otherwise a shorter lifetime than the default can be defined, either in kilometers or years, allowing for more flexible and realistic modeling of vehicle usage patterns.
 
-  **Note**:
-
+  **Note**:   
   **Intended end-of-usage (mileage/age)** must be greater than **Second-hand Car Mileage (km)**.
   If the age of the vehicle at the EoL is provided instead of the mileage, the total mileage covered by the car is estimated through the **Average Annual Mileage (km)** value.
   This parameter affects the responsibility of the current user for the production and EoL of the car.
@@ -215,7 +213,7 @@ The available units of measure for the analysis are:
 ### **Plot**
 The carbon footprint of each car is represented graphically to provide a quick evaluation of the selected cars.  
 - The **history of the current car** starts from year/kilometer `0`, if the car is new, or from the **Second-hand Car Mileage** in kilometers or the equivalent in years.  
-- The **history of alternative cars** starts from the mileage defined in **Current Mileage (km)** or its equivalent in years(representing the point of replacement).  
+- The **history of new cars** starts from the mileage defined in **Current Mileage (km)** or its equivalent in years (representing the point of replacement).  
 
 Each carbon footprint history starts with a **step**, whose height represents the CO₂ emissions from the **Production and End-of-Life (EoL)** phases, scaled by the responsibility of the current user.  
 - **Second-hand cars** and those **not kept until EoL** have a **responsibility factor** lower than 1.  
