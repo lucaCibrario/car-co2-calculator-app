@@ -208,7 +208,8 @@ The computation starts when the **Compute Carbon Footprint** button is pressed.
 
 The available units of measure for the analysis are:
 - **years**
-- **kilometers**  
+- **kilometers**
+
 When the units of measure are changed, the plot, tables and **Output data analysis options** are updated accordingly.
 Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
 
