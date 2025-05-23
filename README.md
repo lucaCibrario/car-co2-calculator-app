@@ -25,14 +25,14 @@ ECO Car Replacement Advisor is a tool for assessing the environmental impact of 
 
 ### Key Features
 
-- Supports multiple new car comparisons
-- Break-Even Point (BEP) and Specific Mileage/Age analysis modes
-- Interactive CO₂ history plots
-- Detailed input for:
-  - Current and new vehicle specifications
-  - Fuel/electricity consumption
-  - Driving patterns and battery assumptions
-  - Regional electricity production
+- Supports multiple new car comparisons  
+- Allows analysis over custom time windows to compare different scenarios such as resale, leasing, or long-term ownership  
+- Interactive CO₂ history plots  
+- Detailed input for:  
+  - Current and new vehicle specifications  
+  - Fuel/electricity consumption  
+  - Driving patterns and battery assumptions  
+  - Regional electricity production  
 - Optional advanced configuration and tooltips for every setting
 
 ## Installation
@@ -76,6 +76,7 @@ These are the settings for defining the current car that may be replaced.
 
 - **Current Mileage (km) (Compulsory)**  
   The total number of kilometers the car has been driven from its production. It corresponds to the figure that can be read on the odometer.  
+  Depending on the type of engine of the current car, the value of **Current Mileage (km)** must be greater than **ICE Car Life Span (km)** or **BEV Car Life Span (km)**, that are defined in the **Advanced Analysis Settings**.
 
 - **Energy mix (gCO₂/kWh)**  
   The Energy Mix represents the average carbon intensity of electricity generation in a given country, measured in grams of CO₂ emitted per kilowatt-hour (gCO₂/kWh).
@@ -89,7 +90,7 @@ These are the settings for defining the current car that may be replaced.
   To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.
   This parameter affects the responsibility of the current user for the production and EoL of the car.
 
-  **Note**:   
+  *Note*:   
   The **Second-hand Car Mileage (km)** must be lower than **Current Mileage (km)**.
 
 - **ICE Consumption (l/100km)**  
@@ -144,16 +145,6 @@ The available parameters are listed below (the description of each field can be 
 
 - **Engine Type**
 
-- **Intended end-of-usage (mileage/age)**  
-  Defines whether the car will be kept until the end of its life or just for a limited number of kilometers/years. The value represents the car's total lifespan from the moment of production until retirement or resale.  
-  If the option **Keep until EoL** is checked, the editable field is filled with the default expected life-time of the vehicle. 
-  Otherwise a shorter lifetime than the default can be defined, either in kilometers or years, allowing for more flexible and realistic modeling of vehicle usage patterns.
-
-  **Note**:   
-  **Intended end-of-usage (mileage/age)** must be greater than **Second-hand Car Mileage (km)**.
-  If the age of the vehicle at the EoL is provided instead of the mileage, the total mileage covered by the car is estimated through the **Average Annual Mileage (km)** value.
-  This parameter affects the responsibility of the current user for the production and EoL of the car.
-
 - **Second-hand Car Mileage (km)**
 
 - **ICE Consumption (l/100km)**  
@@ -185,11 +176,23 @@ These additional settings affect the carbon footprint computation.
 - **Average annual mileage (km)**  
   The average distance the user drives each year.
 
+- **Intended End-of-Usage (Mileage/Age)**  
+  This parameter defines how long the user plans to keep the **new car(s)** after replacing the current vehicle. It represents the anticipated usage horizon of the new car(s), either in kilometers or years, starting from the moment it is put into service.
+
+  By default, the **Keep until End of Life (EoL)** option is selected, which sets this value to the expected full lifespan of the vehicle. Alternatively, the user can specify a shorter intended usage duration, offering flexibility to model various ownership scenarios (e.g., resale after a few years or lease return).
+
+  This parameter affects the user’s environmental responsibility over the **production** and **end-of-life** impacts of the new car. It also plays a critical role in identifying the **End-of-Usage (EoU)** point, which is the earliest among the following conditions:
+
+  - The specified intended usage (in kilometers or years) is reached;
+  - The **old car** or any of the new ones reaches its own EoL;
+  - The **old car** reaches 20 years of age.
+
+
 - **Maintenance**  
   Defines whether compulsory and extraordinary maintenance is performed.  
   This affects the degradation of fuel/electric consumption over time.
 
-- **Advanced Analysis Settings**
+- **Advanced Analysis Settings**  
   Those settings can be accessed by clicking on the **Gear** button in the **Analysis Settings** area.
   - **ICE Car Life Span (km)**: Expected lifespan of an ICE car.  
   - **BEV Car Life Span (km)**: Expected lifespan of a BEV.    
@@ -206,59 +209,77 @@ The computation starts when the **Compute Carbon Footprint** button is pressed.
 The available units of measure for the analysis are:
 - **years**
 - **kilometers**  
-  When the units of measure are changed, the plot, tables and **Output data analysis options** are updated accordingly.
-  Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
+When the units of measure are changed, the plot, tables and **Output data analysis options** are updated accordingly.
+Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
 
 
 ### **Plot**
-The carbon footprint of each car is represented graphically to provide a quick evaluation of the selected cars.  
+The carbon footprint of each car is represented graphically to provide a quick evaluation of the old car against the new ones.  
 - The **history of the current car** starts from year/kilometer `0`, if the car is new, or from the **Second-hand Car Mileage** in kilometers or the equivalent in years.  
 - The **history of new cars** starts from the mileage defined in **Current Mileage (km)** or its equivalent in years (representing the point of replacement).  
+- The default analysis time (or distance) window is set to the **End-of-Usage (EoU)** point, which is the earliest among the following conditions:
+  - The specified intended usage (in kilometers or years) is reached;
+  - The **old car** reaches its own EoL;
+  - The **old car** reaches 20 years of age.
 
 Each carbon footprint history starts with a **step**, whose height represents the CO₂ emissions from the **Production and End-of-Life (EoL)** phases, scaled by the responsibility of the current user.  
 - **Second-hand cars** and those **not kept until EoL** have a **responsibility factor** lower than 1.  
 - During the **Use Phase**, emissions increase exponentially as the car ages due to component degradation.  
 
-### **Tables**
-These tables provide **quantitative** data for the carbon footprint history at specific mileage points.
-Data can be retrieved at:
+### **End-of-Usage (EoU) Table**
 
-- **Break-Even Point (BEP)**  
-  If it exists, the **BEP** is the mileage where the new car's emissions cross the old car's emissions, making the new car the better option from that moment on.  
-  Fields in BEP Table:
-  - `Car`: The vehicle reference. 
-  - `Car Details`: Segment and engine type of the car for a quick reference.
-  - `Age/Mileage at BE (years/km)`: The age or the mileage on the odometer of the old car at the time of the BEP.
-  - `Emissions at BE (t CO₂)`: Emissions in tons from the old car production.  
-  - `BEP - change (years/km)`: Distance in age or mileage between the BEP and the time of replacement.
-  - `BEP - change (t CO₂)`: Emissions between the BEP and the time of replacement.
+This table provides **quantitative data** on carbon footprint metrics at the **End-of-Usage (EoU)** point, enabling side-by-side comparisons of different vehicle options. Each row corresponds to either the current car or a new alternative under evaluation.
 
-  If the BEP does not exist, the fields are empty.
+The table is automatically updated based on user settings such as intended usage duration, driving profile, and maintenance assumptions.
 
-- **Specific Age/Mileage (years/km)** 
-  If this option is selected a user-defined age/mileage should be defined for the analysis. The table can be updated by pushing the **Refresh Table** button.
-  Data at any given age/mileage:
-  - `Car`: The vehicle reference. 
-  - `Car Details`: Segment and engine type of the car for a quick reference.
-  - `CO₂ savings (t CO₂)`: Difference in the total emissions between the new car and the old one. A positive value means that the new car is saving emissions.  
-  - `Distance from BE (years/km)`: Difference in years/kilometers from the given mileage and the BEP (if it exists).  
+#### **Columns Description**
+
+- **Car**  
+  Identifier of the vehicle. The current vehicle is marked as **Current**, while new options are listed as **Car 1**, **Car 2**, etc.
+
+- **Car Details**  
+  A short description of the vehicle, including its segment (e.g., compact, SUV) and engine type (e.g., ICE, HEV, BEV).
+
+- **EoU - change (tCO₂)**  
+  The net change in cumulative CO₂ emissions between the EoU and the time of replacement.
+
+- **CO₂ Savings (tCO₂)**  
+  Total emissions saved by replacing the current vehicle with the new one at the **EoU**.
+
+- **Yearly Emissions (tCO₂/year)**  
+  Average yearly emissions from the replacement moment to the EoU, including all life cycle phases.
+  For the **current car** only, yearly emissions are computed from the time the old car was bought to EoU.
+
+- **Production**  
+  Percentage contribution of vehicle production to the total yearly emissions.
+
+- **EoL**  
+  Percentage contribution of vehicle end-of-life processes to the total yearly emissions.
+
+- **Use**  
+  Percentage contribution of the operational (driving) phase to the total yearly emissions.
+
+- **Maintenance**  
+  Percentage contribution of maintenance activities (if applicable) to the total yearly emissions.  
+  - If maintenance is disabled in settings, this column may show `/`.  
+  - For electric vehicles (BEVs), a small non-zero maintenance impact may still appear depending on the data.
 
 
 
 ## **Help Menu**  
 Through the **Help Menu** the user can access:
-- The **Full Documentation** in PDF format
-- A quick intro to get started
+- The **Full Documentation** in PDF format.
+- A quick intro to get started.
 
 
 ---
 
 ## **Notes**
 - Every time a field in the input section is changed, the **Compute Carbon Footprint** button must be pressed to update results.
-- If the plot does not update automatically, it is sufficient to move the mouse on its area.
+- **Tip:** Hover over editable fields and column headers in the app for detailed tooltips.
 
 
-## Contact
+## **Contact**
 
 For any questions or further information, please contact:
 
