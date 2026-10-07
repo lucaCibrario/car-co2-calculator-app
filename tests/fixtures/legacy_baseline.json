@@ -1,0 +1,183 @@
+{
+  "gasoline_to_bev_with_maintenance": {
+    "analysis_start_km": 0.0,
+    "cars": [
+      {
+        "BEco2": null,
+        "BEkm": null,
+        "DeltaBEco2": null,
+        "DeltaBEkm": null,
+        "DeltaTHco2": 25.83162865804017,
+        "THco2": 45.832394999699524,
+        "carLifeSpan": 200000.0,
+        "depreciation": 0.5662701192926936,
+        "emission_samples": [
+          3.6128033610873858,
+          41.449601684352956,
+          83.50617481447811
+        ],
+        "productionEoL": 3612803.3610873856,
+        "relativeEolCo2": 0.788264143977436,
+        "relativeMaintenanceCo2": 3.1353073771246036,
+        "relativeProductionCo2": 7.0943772957969236,
+        "relativeUseCo2": 88.98205118310104,
+        "usePhaseEmissions": 187.648,
+        "x_count": 361,
+        "x_first": 0.0,
+        "x_last": 360000.0,
+        "yearlyCo2": 2.749943699981971
+      },
+      {
+        "BEco2": 32.0,
+        "BEkm": 137878.0,
+        "DeltaBEco2": 11.999233658340646,
+        "DeltaBEkm": 57878.0,
+        "DeltaTHco2": 15.206308216736002,
+        "THco2": 35.207074558395355,
+        "battery_replacement_total": 16.9,
+        "carLifeSpan": 280000.0,
+        "depreciation": 0.9714852372141491,
+        "emission_samples": [
+          29.346454323659465,
+          44.65923105198107,
+          59.85679999608418
+        ],
+        "productionEoL": 9345687.982000114,
+        "relativeEolCo2": 6.145928287652548,
+        "relativeMaintenanceCo2": 6.438942625540348,
+        "relativeProductionCo2": 55.313354588872926,
+        "relativeUseCo2": 32.10177449793418,
+        "usePhaseEmissions": 38.7,
+        "x_count": 281,
+        "x_first": 80000.0,
+        "x_last": 360000.0,
+        "yearlyCo2": 1.5206308216736002
+      }
+    ],
+    "end_km": 200000.0,
+    "y_range": [
+      0.0,
+      50.415634499669466
+    ]
+  },
+  "gasoline_to_diesel_without_maintenance": {
+    "analysis_start_km": 0.0,
+    "cars": [
+      {
+        "BEco2": null,
+        "BEkm": null,
+        "DeltaBEco2": null,
+        "DeltaBEkm": null,
+        "DeltaTHco2": 28.257866578411623,
+        "THco2": 47.91210012417898,
+        "carLifeSpan": 200000.0,
+        "depreciation": 0.5662701192926936,
+        "emission_samples": [
+          3.6128033610873858,
+          42.8264338177959,
+          94.66441853626749
+        ],
+        "productionEoL": 3612803.3610873856,
+        "relativeEolCo2": 0.7540482157375054,
+        "relativeMaintenanceCo2": 0.0,
+        "relativeProductionCo2": 6.786433941637547,
+        "relativeUseCo2": 92.45951784262495,
+        "usePhaseEmissions": 187.648,
+        "x_count": 361,
+        "x_first": 0.0,
+        "x_last": 360000.0,
+        "yearlyCo2": 2.8747260074507386
+      },
+      {
+        "BEco2": 48.0,
+        "BEkm": 200100.0,
+        "DeltaBEco2": 28.345766454232646,
+        "DeltaBEkm": 120100.0,
+        "DeltaTHco2": 28.216241723283815,
+        "THco2": 47.87047526905117,
+        "carLifeSpan": 280000.0,
+        "depreciation": 0.8761065470730167,
+        "emission_samples": [
+          25.2437933160932,
+          52.083017108187434,
+          85.52972467501048
+        ],
+        "productionEoL": 5589559.770325848,
+        "relativeEolCo2": 1.9809724573323981,
+        "relativeMaintenanceCo2": -1.2591023686435286e-14,
+        "relativeProductionCo2": 17.82875211599158,
+        "relativeUseCo2": 80.19027542667602,
+        "usePhaseEmissions": 170.697,
+        "x_count": 281,
+        "x_first": 80000.0,
+        "x_last": 360000.0,
+        "yearlyCo2": 2.8216241723283817
+      }
+    ],
+    "end_km": 200000.0,
+    "y_range": [
+      0.0,
+      52.70331013659687
+    ]
+  },
+  "used_diesel_to_used_plugin_without_maintenance": {
+    "analysis_start_km": 40000.0,
+    "cars": [
+      {
+        "BEco2": null,
+        "BEkm": null,
+        "DeltaBEco2": null,
+        "DeltaBEkm": null,
+        "DeltaTHco2": 11.874702560016923,
+        "THco2": 21.651681422080696,
+        "carLifeSpan": 200000.0,
+        "depreciation": 0.3888412672210861,
+        "emission_samples": [
+          2.4808072848705294,
+          34.718857504726614,
+          76.10441250105646
+        ],
+        "productionEoL": 2480807.2848705295,
+        "relativeEolCo2": 1.1457804299395273,
+        "relativeMaintenanceCo2": 0.0,
+        "relativeProductionCo2": 10.312023869455746,
+        "relativeUseCo2": 88.54219570060474,
+        "usePhaseEmissions": 170.697,
+        "x_count": 321,
+        "x_first": 40000.0,
+        "x_last": 360000.0,
+        "yearlyCo2": 2.598201770649683
+      },
+      {
+        "BEco2": 17.0,
+        "BEkm": 116016.0,
+        "DeltaBEco2": 7.223021137936227,
+        "DeltaBEkm": 36016.0,
+        "DeltaTHco2": 10.255174156817946,
+        "THco2": 20.03215301888172,
+        "carLifeSpan": 140000.0,
+        "depreciation": 0.36234611478282225,
+        "emission_samples": [
+          12.088747074378178,
+          31.894561311923937,
+          56.576321189090784
+        ],
+        "productionEoL": 2311768.2123144064,
+        "relativeEolCo2": 2.2542456880437025,
+        "relativeMaintenanceCo2": 0.0,
+        "relativeProductionCo2": 20.288211192393323,
+        "relativeUseCo2": 77.45754311956297,
+        "usePhaseEmissions": 123.89288,
+        "x_count": 281,
+        "x_first": 80000.0,
+        "x_last": 360000.0,
+        "yearlyCo2": 2.051034831363589
+      }
+    ],
+    "end_km": 140000.0,
+    "y_range": [
+      0.0,
+      23.816849564288766
+    ]
+  }
+}

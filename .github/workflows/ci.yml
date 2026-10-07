@@ -1,8 +1,8 @@
-name: Smoke test
+name: Quality checks
 
 on:
   push:
-    branches: [main]
+    branches: [main, "refactor/**"]
   pull_request:
 
 jobs:
@@ -19,5 +19,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: uv sync --locked
-      - name: Import the GUI and load bundled data
+      - name: Lint and format
+        run: |
+          uv run --no-sync ruff check eco_car_advisor tests EcoCarReplacementAdvisor.py
+          uv run --no-sync ruff format --check eco_car_advisor tests EcoCarReplacementAdvisor.py
+      - name: Run regression and GUI workflow tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+          QTWEBENGINE_DISABLE_SANDBOX: "1"
         run: uv run --no-sync python -m unittest discover -s tests -v

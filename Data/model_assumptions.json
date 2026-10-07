@@ -1,0 +1,47 @@
+{
+  "max_window_years": 20,
+  "default_annual_mileage_km": 12000,
+  "default_ice_lifespan_km": 200000,
+  "default_bev_lifespan_km": 200000,
+  "plot_span_factor": 1.4,
+  "plot_step_km": 1000,
+  "degradation_with_maintenance": 1.005,
+  "degradation_without_maintenance": 1.01,
+  "production_share": 0.9,
+  "end_of_life_share": 0.1,
+  "battery_production_kg_per_kwh": 130,
+  "depreciation": {
+    "BEV": {"age_coefficient": 0.1706, "mileage_coefficient": 0.00357},
+    "other": {"age_coefficient": 0.1025, "mileage_coefficient": 0.00190}
+  },
+  "car_segments": ["Segment B", "Segment C", "SUV"],
+  "engine_types": [
+    "Gasoline (Euro 4)", "Gasoline (Euro 5)", "Gasoline (Euro 6)",
+    "Diesel (Euro 4)", "Diesel (Euro 5)", "Diesel (Euro 6)",
+    "Mild/Full Hybrid", "Plug-in Hybrid", "BEV"
+  ],
+  "countries": [
+    "Europe", "Custom", "Austria", "Belgium", "Bulgaria", "Croatia",
+    "Cyprus", "Czech Republic", "Denmark", "Estonia", "Finland", "France",
+    "Germany", "Greece", "Hungary", "Ireland", "Italy", "Latvia",
+    "Lithuania", "Luxembourg", "Malta", "Netherlands", "Poland",
+    "Portugal", "Romania", "Slovakia", "Slovenia", "Spain", "Sweden"
+  ],
+  "fuel_emissions": {
+    "Gasoline": {"WTT": 572, "TTW": 2360},
+    "Diesel": {"WTT": 697, "TTW": 2650}
+  },
+  "driving_share": {"Segment B": 0.44, "Segment C": 0.44, "SUV": 0.43},
+  "energy_mix_kg_per_kwh": {
+    "Europe": 0.21, "Sweden": 0.008, "Poland": 0.614,
+    "Finland": 0.04, "France": 0.05, "Luxembourg": 0.056,
+    "Latvia": 0.067, "Slovakia": 0.084, "Austria": 0.085,
+    "Denmark": 0.094, "Portugal": 0.119, "Lithuania": 0.124,
+    "Croatia": 0.134, "Belgium": 0.145, "Hungary": 0.154,
+    "Spain": 0.158, "Slovenia": 0.176, "Italy": 0.225,
+    "Romania": 0.234, "Greece": 0.258, "Ireland": 0.26,
+    "Netherlands": 0.263, "Bulgaria": 0.281, "Germany": 0.329,
+    "Malta": 0.342, "Czech Republic": 0.44, "Cyprus": 0.585,
+    "Estonia": 0.69
+  }
+}

@@ -1,35 +1,27 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Apr  8 07:52:18 2025
+"""Combo box with a restorable saved value."""
 
-@author: lucac
-"""
-
-from PySide6.QtWidgets import QComboBox
 from PySide6.QtCore import Signal
-from typing import Union
+from PySide6.QtWidgets import QComboBox
 
 
-class myQComboBox(QComboBox):
+class StoredComboBox(QComboBox):
     valueChanged = Signal(str)
 
-    def __init__(self,
-                 variableLabel: str = '',
-                 items: list[str] = [],
-                 defaultIndex: int = 0,
-                 parent=None):
-
+    def __init__(
+        self,
+        variableLabel: str = "",
+        items: list[str] | None = None,
+        defaultIndex: int = 0,
+        parent=None,
+    ):
         super().__init__(parent)
-
         self._variableLabel = variableLabel
+        items = items if items is not None else []
         self._items = items
         self._defaultValue = defaultIndex
-
         self.addItems(items)
-
         self.write(defaultIndex)
         self.currentTextChanged.connect(self._on_text_changed)
-
         self.save()
 
     def _on_text_changed(self, text):
@@ -41,7 +33,7 @@ class myQComboBox(QComboBox):
     def restore_storedValue(self):
         self.write(self._previousValue)
 
-    def write(self, value: Union[str, int], save: bool = False):
+    def write(self, value: str | int, save: bool = False):
         if isinstance(value, str):
             index = self.findText(value)
             if index >= 0:
@@ -49,16 +41,16 @@ class myQComboBox(QComboBox):
                 if save:
                     self.save()
             else:
-                print(f"[myQComboBox] Warning: item '{value}' not found.")
+                print(f"[StoredComboBox] Warning: item '{value}' not found.")
         elif isinstance(value, int):
             if 0 <= value < self.count():
                 self.setCurrentIndex(value)
                 if save:
                     self.save()
             else:
-                print(f"[myQComboBox] Warning: index {value} out of range.")
+                print(f"[StoredComboBox] Warning: index {value} out of range.")
         else:
-            print(f"[myQComboBox] Warning: unsupported type {type(value)} for write().")
+            print(f"[StoredComboBox] Warning: unsupported type {type(value)} for write().")
 
     def read(self) -> str:
         return self.currentText()

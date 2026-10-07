@@ -1,0 +1,812 @@
+{
+  "SUV|BEV": {
+    "current": {
+      "TTW": null,
+      "WTT": null,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 8.1,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "BEV",
+      "massValue": 2594.0,
+      "meanConsumptionLiter": null,
+      "meanConsumptionWh": 20.4
+    },
+    "replacement": {
+      "TTW": null,
+      "WTT": null,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 8.1,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "BEV",
+      "massValue": 2594.0,
+      "meanConsumptionLiter": null,
+      "meanConsumptionWh": 20.4
+    }
+  },
+  "SUV|Diesel (Euro 4)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.5,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 4)",
+      "massValue": 1639.0,
+      "meanConsumptionLiter": 9.6,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.5,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 4)",
+      "massValue": 1639.0,
+      "meanConsumptionLiter": 9.6,
+      "meanConsumptionWh": null
+    }
+  },
+  "SUV|Diesel (Euro 5)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 5)",
+      "massValue": 1716.0,
+      "meanConsumptionLiter": 7.6,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 5)",
+      "massValue": 1716.0,
+      "meanConsumptionLiter": 7.6,
+      "meanConsumptionWh": null
+    }
+  },
+  "SUV|Diesel (Euro 6)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 6)",
+      "massValue": 1705.0,
+      "meanConsumptionLiter": 6.5,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 6)",
+      "massValue": 1705.0,
+      "meanConsumptionLiter": 6.5,
+      "meanConsumptionWh": null
+    }
+  },
+  "SUV|Gasoline (Euro 4)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.2,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 4)",
+      "massValue": 1603.0,
+      "meanConsumptionLiter": 10.0,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.2,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 4)",
+      "massValue": 1603.0,
+      "meanConsumptionLiter": 10.0,
+      "meanConsumptionWh": null
+    }
+  },
+  "SUV|Gasoline (Euro 5)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 5)",
+      "massValue": 1700.0,
+      "meanConsumptionLiter": 9.5,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 5)",
+      "massValue": 1700.0,
+      "meanConsumptionLiter": 9.5,
+      "meanConsumptionWh": null
+    }
+  },
+  "SUV|Gasoline (Euro 6)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 6)",
+      "massValue": 1661.0,
+      "meanConsumptionLiter": 7.9,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 6)",
+      "massValue": 1661.0,
+      "meanConsumptionLiter": 7.9,
+      "meanConsumptionWh": null
+    }
+  },
+  "SUV|Mild/Full Hybrid": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 5.3,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Mild/Full Hybrid",
+      "massValue": 1901.0,
+      "meanConsumptionLiter": 6.0,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 5.3,
+      "carSegment": "SUV",
+      "drivingShare": null,
+      "engineType": "Mild/Full Hybrid",
+      "massValue": 1901.0,
+      "meanConsumptionLiter": 6.0,
+      "meanConsumptionWh": null
+    }
+  },
+  "SUV|Plug-in Hybrid": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 6.5,
+      "carSegment": "SUV",
+      "drivingShare": 0.43,
+      "engineType": "Plug-in Hybrid",
+      "massValue": 2232.0,
+      "meanConsumptionLiter": 4.2,
+      "meanConsumptionWh": 24.3
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 90.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 6.5,
+      "carSegment": "SUV",
+      "drivingShare": 0.43,
+      "engineType": "Plug-in Hybrid",
+      "massValue": 2232.0,
+      "meanConsumptionLiter": 4.2,
+      "meanConsumptionWh": 24.3
+    }
+  },
+  "Segment B|BEV": {
+    "current": {
+      "TTW": null,
+      "WTT": null,
+      "batteryCapacity": 45.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 7.8,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "BEV",
+      "massValue": 1572.0,
+      "meanConsumptionLiter": null,
+      "meanConsumptionWh": 16.4
+    },
+    "replacement": {
+      "TTW": null,
+      "WTT": null,
+      "batteryCapacity": 45.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 7.8,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "BEV",
+      "massValue": 1572.0,
+      "meanConsumptionLiter": null,
+      "meanConsumptionWh": 16.4
+    }
+  },
+  "Segment B|Diesel (Euro 4)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.5,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 4)",
+      "massValue": 1125.0,
+      "meanConsumptionLiter": 5.4,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.5,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 4)",
+      "massValue": 1125.0,
+      "meanConsumptionLiter": 5.4,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment B|Diesel (Euro 5)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 5)",
+      "massValue": 1188.0,
+      "meanConsumptionLiter": 5.3,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 5)",
+      "massValue": 1188.0,
+      "meanConsumptionLiter": 5.3,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment B|Diesel (Euro 6)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 6)",
+      "massValue": 1242.0,
+      "meanConsumptionLiter": 5.3,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 6)",
+      "massValue": 1242.0,
+      "meanConsumptionLiter": 5.3,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment B|Gasoline (Euro 4)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.2,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 4)",
+      "massValue": 1098.0,
+      "meanConsumptionLiter": 7.2,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.2,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 4)",
+      "massValue": 1098.0,
+      "meanConsumptionLiter": 7.2,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment B|Gasoline (Euro 5)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 5)",
+      "massValue": 1166.0,
+      "meanConsumptionLiter": 6.2,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 5)",
+      "massValue": 1166.0,
+      "meanConsumptionLiter": 6.2,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment B|Gasoline (Euro 6)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 6)",
+      "massValue": 1254.0,
+      "meanConsumptionLiter": 5.0,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 6)",
+      "massValue": 1254.0,
+      "meanConsumptionLiter": 5.0,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment B|Mild/Full Hybrid": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 5.2,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Mild/Full Hybrid",
+      "massValue": 1345.0,
+      "meanConsumptionLiter": 5.1,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 5.2,
+      "carSegment": "Segment B",
+      "drivingShare": null,
+      "engineType": "Mild/Full Hybrid",
+      "massValue": 1345.0,
+      "meanConsumptionLiter": 5.1,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment B|Plug-in Hybrid": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 6.5,
+      "carSegment": "Segment B",
+      "drivingShare": 0.44,
+      "engineType": "Plug-in Hybrid",
+      "massValue": 1615.0,
+      "meanConsumptionLiter": 3.0,
+      "meanConsumptionWh": 13.0
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": null,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 6.5,
+      "carSegment": "Segment B",
+      "drivingShare": 0.44,
+      "engineType": "Plug-in Hybrid",
+      "massValue": 1615.0,
+      "meanConsumptionLiter": 3.0,
+      "meanConsumptionWh": 13.0
+    }
+  },
+  "Segment C|BEV": {
+    "current": {
+      "TTW": null,
+      "WTT": null,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 8.1,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "BEV",
+      "massValue": 1990.0,
+      "meanConsumptionLiter": null,
+      "meanConsumptionWh": 17.4
+    },
+    "replacement": {
+      "TTW": null,
+      "WTT": null,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 8.1,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "BEV",
+      "massValue": 1990.0,
+      "meanConsumptionLiter": null,
+      "meanConsumptionWh": 17.4
+    }
+  },
+  "Segment C|Diesel (Euro 4)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.5,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 4)",
+      "massValue": 1394.0,
+      "meanConsumptionLiter": 6.2,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.5,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 4)",
+      "massValue": 1394.0,
+      "meanConsumptionLiter": 6.2,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment C|Diesel (Euro 5)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 5)",
+      "massValue": 1460.0,
+      "meanConsumptionLiter": 6.1,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 5)",
+      "massValue": 1460.0,
+      "meanConsumptionLiter": 6.1,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment C|Diesel (Euro 6)": {
+    "current": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 6)",
+      "massValue": 1520.0,
+      "meanConsumptionLiter": 5.6,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2650.0,
+      "WTT": 697.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Diesel (Euro 6)",
+      "massValue": 1520.0,
+      "meanConsumptionLiter": 5.6,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment C|Gasoline (Euro 4)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.2,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 4)",
+      "massValue": 1366.0,
+      "meanConsumptionLiter": 7.7,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.2,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 4)",
+      "massValue": 1366.0,
+      "meanConsumptionLiter": 7.7,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment C|Gasoline (Euro 5)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 5)",
+      "massValue": 1441.0,
+      "meanConsumptionLiter": 7.6,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 5)",
+      "massValue": 1441.0,
+      "meanConsumptionLiter": 7.6,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment C|Gasoline (Euro 6)": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 6)",
+      "massValue": 1447.0,
+      "meanConsumptionLiter": 6.8,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 4.6,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Gasoline (Euro 6)",
+      "massValue": 1447.0,
+      "meanConsumptionLiter": 6.8,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment C|Mild/Full Hybrid": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 5.2,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Mild/Full Hybrid",
+      "massValue": 1667.0,
+      "meanConsumptionLiter": 5.7,
+      "meanConsumptionWh": null
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 5.2,
+      "carSegment": "Segment C",
+      "drivingShare": null,
+      "engineType": "Mild/Full Hybrid",
+      "massValue": 1667.0,
+      "meanConsumptionLiter": 5.7,
+      "meanConsumptionWh": null
+    }
+  },
+  "Segment C|Plug-in Hybrid": {
+    "current": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 6.5,
+      "carSegment": "Segment C",
+      "drivingShare": 0.44,
+      "engineType": "Plug-in Hybrid",
+      "massValue": 1836.0,
+      "meanConsumptionLiter": 3.4,
+      "meanConsumptionWh": 16.2
+    },
+    "replacement": {
+      "TTW": 2360.0,
+      "WTT": 572.0,
+      "batteryCapacity": 60.0,
+      "batteryLifeTime": 200000.0,
+      "batteryProductionFootprint": 130.0,
+      "carProductionFootprint": 6.5,
+      "carSegment": "Segment C",
+      "drivingShare": 0.44,
+      "engineType": "Plug-in Hybrid",
+      "massValue": 1836.0,
+      "meanConsumptionLiter": 3.4,
+      "meanConsumptionWh": 16.2
+    }
+  }
+}
