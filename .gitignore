@@ -1,0 +1,27 @@
+# Python and uv
+.venv/
+.uv-cache/
+.uv-python/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local IDE and operating system files
+.spyproject/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Generated builds and executables
+build/
+dist/
+*.exe
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example

@@ -1,0 +1,1 @@
+pyinstaller --onefile --noconsole --icon=Icons\TitleIcon.ico --add-data "Data:Data" --add-data "Icons:Icons" --clean EcoCarReplacementAdvisor.py

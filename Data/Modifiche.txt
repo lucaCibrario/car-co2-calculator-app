@@ -1,0 +1,11 @@
+1)	Chiedere a Chiara questione campo per EOL
+2)	Sistemare reset a default della definizione New Cars
+4)	Discutere con Chiara la necessità o meno di definire EoL dell'auto attuale che deve essere cambiata
+5)	Sistemare EoL delle nuove cars, perchè sembra che non venga aggiornata se cambio i valori di expected life time
+6)	Discutere con Chiara questione xlim, ylim
+7)	Nel caso in cui non ci sia il BE, l'eco advice dovrebbe essere "keep old car"
+8)	Discutere con Chiara, come definire il km 0, da cui parte l'analisi (se da quando lo user ha iniziato ad usare l'auto
+	o dal momento di construzione dell'auto)
+9)	Lars, vuole che per il calcolo del DeltaKm nella tabella allo specific mileage, il chilometraggio di partenza sia quello del momento del cambio
+10)	Sistemare range di chilometri per il plot in modo da prendere in considerazione anche l'expected mileage delle BEV
+11)	

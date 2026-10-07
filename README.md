@@ -1,296 +1,72 @@
 # ECO Car Replacement Advisor
 
-## Table of Contents
+Desktop application for comparing the life-cycle CO₂ footprint of keeping a car with replacing it. It combines vehicle production and end-of-life, use-phase energy, battery, and maintenance assumptions, then displays plots and tables for alternative cars.
 
-- [Overview](#overview)
-  - [Key Features](#key-features)
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Input Parameters](#input-parameters)
-  - [Current Car Details](#current-car-details)
-  - [New Car(s)](#new-cars)
-  - [Analysis Settings](#analysis-settings)
-- [Carbon Footprint Analysis](#carbon-footprint-analysis)
-  - [Plot](#plot)
-  - [Tables](#tables)
-- [Help Menu](#help-menu)
-- [Notes](#notes)
-- [Contact](#contact)
-- [License](#license)
+> The application currently labels itself **confidential and for FAAS members only**. This repository has no open-source license. Do not make it public or redistribute it without authorization from the project owners.
 
+The detailed field-by-field user guide is in [Data/Documentation/README.md](Data/Documentation/README.md). The HTML copy in the same directory is used by the application's Help menu.
 
-## Overview
+## Requirements
 
-ECO Car Replacement Advisor is a tool for assessing the environmental impact of replacing a car with a more sustainable model. It helps users compare carbon emissions from their current vehicle against potential new cars by modeling their entire life-cycles. The tool provides intuitive visualizations and tabular output to facilitate analysis and decision-making.
+- Windows 10/11 for the supported desktop and executable workflow. The Python source may also run on other desktop platforms with Qt support, but those platforms have not been verified.
+- Python 3.11–3.14 and [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
-### Key Features
+## Install and run from source
 
-- Supports multiple new car comparisons  
-- Allows analysis over custom time windows to compare different scenarios such as resale, leasing, or long-term ownership  
-- Interactive CO₂ history plots  
-- Detailed input for:  
-  - Current and new vehicle specifications  
-  - Fuel/electricity consumption  
-  - Driving patterns and battery assumptions  
-  - Regional electricity production  
-- Optional advanced configuration and tooltips for every setting
+From the repository root:
 
-## Installation
+```powershell
+uv sync --locked
+uv run --no-sync python EcoCarReplacementAdvisor.py
+```
 
-1. Download the latest `.exe` file.
-2. Double-click the file to run the application.
+`uv sync` creates a local `.venv` and installs the direct dependencies declared in `pyproject.toml` at the versions resolved in `uv.lock`. The lockfile is committed for repeatable installs. Run the app from the repository root because its current resource loader resolves `Data/` and `Icons/` from the working directory.
 
-## Quick Start
-Follow these simple steps to get started:
+If you only need a conventional pip requirements file, `requirements.txt` is an exported snapshot of the same lockfile. The uv workflow above is the maintained installation path.
 
-- Fill in your current car details – including mileage, segment, fuel type, and energy mix.
-- Define the new car(s) – add one or more vehicles to compare, specifying engine type, usage patterns, and optional advanced settings.
-- Click "Compute Carbon Footprint" – the app will generate interactive plots and data tables showing CO₂ emission trends, break-even points, and more.
+## Use
 
-Need more information? Check the full documentation below for detailed guidance.
+1. Set the current car's segment, powertrain, mileage, and energy assumptions.
+2. Add one or more replacement cars and configure their parameters.
+3. Adjust the analysis horizon and maintenance settings.
+4. Click **Compute Carbon Footprint** to view the plots and tables.
 
+For definitions of each input and output, see the [full user guide](Data/Documentation/README.md).
 
+## Build the Windows executable
 
-## Input Parameters
+On Windows, from the repository root:
 
-Below are the details required to evaluate whether to replace or keep your current car.
-When the car segment and engine type are selected, default values from the database are used to fill the related fields.
+```powershell
+uv sync --locked --group build
+uv run --no-sync pyinstaller --noconfirm EcoCarReplacementAdvisor.spec
+```
 
-### **Current Car Details**
+The executable is produced in `dist/` and is intentionally excluded from Git. The PyInstaller spec includes the `Data/` and `Icons/` assets required at runtime. The source and project metadata are the versioned release inputs.
 
-These are the settings for defining the current car that may be replaced.
+## Verify
 
-- **Car Segment**  
-  Defines the size and type of the vehicle.  
-  - **Segment B**: Small cars, typically hatchbacks (e.g., Ford Fiesta, VW Polo).  
-  - **Segment C**: Compact cars, larger than Segment B (e.g., VW Golf, Honda Civic).  
-  - **SUV (Sport Utility Vehicle)**: Larger vehicles with higher ground clearance (e.g., Toyota RAV4, BMW X5).  
+```powershell
+uv run --no-sync python -m unittest discover -s tests -v
+```
 
-- **Engine Type**  
-  Specifies the fuel type and emission standard of the vehicle. Examples:  
-  - **Gasoline (Euro 4, Euro 5, Euro 6)**  
-  - **Diesel (Euro 4, Euro 5, Euro 6)**  
-  - **Mild/Full Hybrid**: These vehicles combine an internal combustion engine (ICE) with an electric motor to improve fuel efficiency.  
-  - **Plug-in Hybrid (PHEV)**: A hybrid vehicle with a larger battery that can be charged from an external power source.  
-  - **BEV (Full-electric)**
+This smoke test imports the GUI and reads the bundled workbooks. GitHub Actions runs it on Windows with Python 3.11 and 3.14; it does not exercise GUI interaction or validate the CO₂ model's scientific results.
 
-- **Current Mileage (km) (Compulsory)**  
-  The total number of kilometers the car has been driven from its production. It corresponds to the figure that can be read on the odometer.  
-  Depending on the type of engine of the current car, the value of **Current Mileage (km)** must be greater than **ICE Car Life Span (km)** or **BEV Car Life Span (km)**, that are defined in the **Advanced Analysis Settings**.
+## Project layout
 
-- **Energy mix (gCO₂/kWh)**  
-  The Energy Mix represents the average carbon intensity of electricity generation in a given country, measured in grams of CO₂ emitted per kilowatt-hour (gCO₂/kWh).
-  - If a specific country is selected, the energy mix is automatically populated based on average national data.
-  - If "Custom" is selected, the field becomes editable to enter a value to reflect a personalized or projected energy scenario (e.g., green electricity contracts, renewable-only sources).
+| Path | Purpose |
+| --- | --- |
+| `EcoCarReplacementAdvisor.py` | GUI entry point |
+| `src/` | Application widgets and calculation utilities |
+| `Data/` | Workbook inputs and in-app documentation |
+| `Icons/` | Interface assets |
+| `EcoCarReplacementAdvisor.spec` | PyInstaller build configuration |
+| `pyproject.toml`, `uv.lock` | Dependency declarations and resolved versions |
 
-  This value directly affects the use-phase emissions of electric and plug-in hybrid vehicles, as it determines the CO₂ impact of every kWh used during driving.
+## Development status
 
-- **Second-hand Car Mileage (km)**  
-  If the car was bought used, this is the mileage on the odometer at the time of purchase.  
-  To set this option, just check the box and enter the mileage of the second-hand car at the time of purchase.
-  This parameter affects the responsibility of the current user for the production and EoL of the car.
+This is an initial repository publication of the existing application. The current module layout and calculation code have intentionally been preserved; a broader code migration can follow separately. Verification is limited to the smoke test above; there are no model-validation tests or verified cross-platform builds yet.
 
-  *Note*:   
-  The **Second-hand Car Mileage (km)** must be lower than **Current Mileage (km)**.
+## Authors and access
 
-- **ICE Consumption (l/100km)**  
-  The fuel consumption of the **internal combustion engine (ICE)**, measured in liters per 100 km.  
-
-- **EM Consumption (kWh/100km)**  
-  The energy consumption of the **electric motor (EM)**, measured in kilowatt-hours per 100 km.  
-  *(Only applicable for hybrid and electric vehicles.)*
-
-- **Driving Share (Plug-in Hybrid only)**  
-  The Driving Share field represents the proportion of kilometers driven in electric mode for plug-in hybrid vehicles. It is a decimal value between 0 and 1, where:
-  - 1.0 means the vehicle is driven entirely in electric mode.
-  - 0.0 means it is driven entirely using the internal combustion engine.
-
-- **Car Mass (kg)**   
-  The total weight of the car in kilograms. 
-
-- **Car Production-EoL Footprint (kgCO₂/kg)** 
-  The Car Production Footprint represents the total carbon emissions associated with the manufacturing and end-of-life treatment of the vehicle.
-  This value accounts for the environmental impact of raw material extraction, vehicle assembly, and disposal or recycling processes at the end of the car's lifecycle.
-
-- **WTT (Well-to-Tank) Fuel Footprint (gCO₂/l)**  
-  The Well-to-Tank (WTT) Emissions refer to the amount of CO₂ released during the extraction, refining, and distribution of fuel before it reaches the vehicle’s tank.
-  WTT emissions are a crucial component of the fuel life cycle and vary based on the type of fuel and energy source.
-
-- **TTW (Tank-to-Wheel) Fuel Footprint (gCO₂/l)**   
-  The Tank-to-Wheel (TTW) Emissions capture the CO₂ emissions produced when the fuel is combusted inside the vehicle engine during driving.
-  TTW represents the direct operational emissions of the vehicle and depends primarily on fuel type and engine efficiency.
-
-- **Reset** button  
-  To restore the default values.
-
-- **BEV Battery Settings (BEVs only):**
-  - **Battery Capacity (kWh)**
-    Indicates the total energy storage capacity of the vehicle's battery. This value is used to estimate emissions associated with battery production.
-  - **Battery Production Footprint (kgCO₂/kWh)**
-    Defines the emission factor for battery manufacturing. It represents the environmental impact of producing the battery based on its capacity.
-  - **Estimated life time (km)**
-    Refers to the estimated distance (in kilometers) a battery can last before requiring replacement. This helps evaluate the long-term impact of battery usage and contributes to end-of-life emission considerations.
-
-  
-
-### **New Car(s)**
-
-This section allows defining the alternative(s) to the current car for evaluation.  
-New cars are added by pressing the green **Plus** button, while the red **Minus** button removes them.  
-Each new car can be quickly defined through its **segment** and **engine type**, but additional parameters can be set via a dialog box triggered by the **Gear** button.
-
-The available parameters are listed below (the description of each field can be found in the [Current Car Details](#current-car-details) section):
-
-- **Car Segment**  
-
-- **Engine Type**
-
-- **Second-hand Car Mileage (km)**
-
-- **ICE Consumption (l/100km)**  
-
-- **EM Consumption (kWh/100km)**  
-
-- **Car Mass (kg)**  
-
-- **Car Production-EoL Footprint (kgCO₂/kg)**
-
-- **WTT (Well-to-Tank) Fuel Footprint (gCO₂/l)**
-
-- **TTW (Tank-to-Wheel) Fuel Footprint (gCO₂/l)**
-
-- **BEV Battery Settings (BEVs only):**
-  - **Battery Capacity (kWh)**
-  - **Battery Production Footprint (kgCO₂/kWh)**
-  - **Estimated life time (km)**
-
-- **Reset** button: Restores default values.  
-
-- **Save** button: Saves the current changes. *(If the window is closed without saving, all changes will be lost.)*  
-
-
-### **Analysis Settings**
-
-These additional settings affect the carbon footprint computation.
-
-- **Average annual mileage (km)**  
-  The average distance the user drives each year.
-
-- **Intended End-of-Usage (Mileage/Age)**  
-  This parameter defines how long the user plans to keep the **new car(s)** after replacing the current vehicle. It represents the anticipated usage horizon of the new car(s), either in kilometers or years, starting from the moment it is put into service.
-
-  By default, the **Keep until End of Life (EoL)** option is selected, which sets this value to the expected full lifespan of the vehicle. Alternatively, the user can specify a shorter intended usage duration, offering flexibility to model various ownership scenarios (e.g., resale after a few years or lease return).
-
-  This parameter affects the user’s environmental responsibility over the **production** and **end-of-life** impacts of the new car. It also plays a critical role in identifying the **End-of-Usage (EoU)** point, which is the earliest among the following conditions:
-
-  - The specified intended usage (in kilometers or years) is reached;
-  - The **old car** or any of the new ones reaches its own EoL;
-  - The **old car** reaches 20 years of age.
-
-
-- **Maintenance**  
-  Defines whether compulsory and extraordinary maintenance is performed.  
-  This affects the degradation of fuel/electric consumption over time.
-
-- **Advanced Analysis Settings**  
-  Those settings can be accessed by clicking on the **Gear** button in the **Analysis Settings** area.
-  - **ICE Car Life Span (km)**: Expected lifespan of an ICE car.  
-  - **BEV Car Life Span (km)**: Expected lifespan of a BEV.    
-  - **Reset** button: Restores default values.
-  - **Save** button: Stores new values. *(If the window is closed without saving, all changes will be lost.)*
-
-
-
-## **Carbon Footprint Analysis**
-
-This is the output section, where **CO₂ Footprint History** is displayed and analyzed to make comparisons and find the best alternative.  
-The computation starts when the **Compute Carbon Footprint** button is pressed.
-
-The available units of measure for the analysis are:
-- **years**
-- **kilometers**
-
-When the units of measure are changed, the plot, tables and **Output data analysis options** are updated accordingly.
-Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
-
-
-### **Plot**
-The carbon footprint of each car is represented graphically to provide a quick evaluation of the old car against the new ones.  
-- The **history of the current car** starts from year/kilometer `0`, if the car is new, or from the **Second-hand Car Mileage** in kilometers or the equivalent in years.  
-- The **history of new cars** starts from the mileage defined in **Current Mileage (km)** or its equivalent in years (representing the point of replacement).  
-- The default analysis time (or distance) window is set to the **End-of-Usage (EoU)** point, which is the earliest among the following conditions:
-  - The specified intended usage (in kilometers or years) is reached;
-  - The **old car** reaches its own EoL;
-  - The **old car** reaches 20 years of age.
-
-Each carbon footprint history starts with a **step**, whose height represents the CO₂ emissions from the **Production and End-of-Life (EoL)** phases, scaled by the responsibility of the current user.  
-- **Second-hand cars** and those **not kept until EoL** have a **responsibility factor** lower than 1.  
-- During the **Use Phase**, emissions increase exponentially as the car ages due to component degradation.  
-
-### **End-of-Usage (EoU) Table**
-
-This table provides **quantitative data** on carbon footprint metrics at the **End-of-Usage (EoU)** point, enabling side-by-side comparisons of different vehicle options. Each row corresponds to either the current car or a new alternative under evaluation.
-
-The table is automatically updated based on user settings such as intended usage duration, driving profile, and maintenance assumptions.
-
-#### **Columns Description**
-
-- **Car**  
-  Identifier of the vehicle. The current vehicle is marked as **Current**, while new options are listed as **Car 1**, **Car 2**, etc.
-
-- **Car Details**  
-  A short description of the vehicle, including its segment (e.g., compact, SUV) and engine type (e.g., ICE, HEV, BEV).
-
-- **EoU - change (tCO₂)**  
-  The net change in cumulative CO₂ emissions between the EoU and the time of replacement.
-
-- **CO₂ Savings (tCO₂)**  
-  Total emissions saved by replacing the current vehicle with the new one at the **EoU**.
-
-- **Yearly Emissions (tCO₂/year)**  
-  Average yearly emissions from the replacement moment to the EoU, including all life cycle phases.
-  For the **current car** only, yearly emissions are computed from the time the old car was bought to EoU.
-
-- **Production**  
-  Percentage contribution of vehicle production to the total yearly emissions.
-
-- **EoL**  
-  Percentage contribution of vehicle end-of-life processes to the total yearly emissions.
-
-- **Use**  
-  Percentage contribution of the operational (driving) phase to the total yearly emissions.
-
-- **Maintenance**  
-  Percentage contribution of maintenance activities (if applicable) to the total yearly emissions.  
-  - If maintenance is disabled in settings, this column may show `/`.  
-  - For electric vehicles (BEVs), a small non-zero maintenance impact may still appear depending on the data.
-
-
-
-## **Help Menu**  
-Through the **Help Menu** the user can access:
-- The **Full Documentation** in PDF format.
-- A quick intro to get started.
-
-
----
-
-## **Notes**
-- Every time a field in the input section is changed, the **Compute Carbon Footprint** button must be pressed to update results.
-- **Tip:** Hover over editable fields and column headers in the app for detailed tooltips.
-
-
-## **Contact**
-
-For any questions or further information, please contact:
-
-- **Eng. Luca Cibrario** – PhD Student, DIMEAS, Politecnico di Torino  
-  📧 [luca.cibrario@polito.it](mailto:luca.cibrario@polito.it)
-
-- **Prof. Chiara Gastaldi** – Associate Professor, DIMEAS, Politecnico di Torino  
-  📧 [chiara.gastaldi@polito.it](mailto:chiara.gastaldi@polito.it)
-
-
-## **License**
-*This software is currently private and distributed only to selected users.*
-
+Developed by Luca Cibrario with Chiara Gastaldi at Politecnico di Torino. Contact details are in the [user guide](Data/Documentation/README.md). Access and distribution remain subject to the project owners' authorization.

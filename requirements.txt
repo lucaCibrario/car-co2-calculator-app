@@ -1,0 +1,17 @@
+et-xmlfile==2.0.0
+narwhals==2.26.0
+numpy==2.4.6 ; python_full_version < '3.12'
+numpy==2.5.3 ; python_full_version >= '3.12'
+openpyxl==3.1.5
+packaging==26.3
+pandas==3.0.6
+plotly==6.9.0
+pyside6==6.11.2
+pyside6-addons==6.11.2
+pyside6-essentials==6.11.2
+python-dateutil==2.9.0.post0
+scipy==1.17.1 ; python_full_version < '3.12'
+scipy==1.18.1 ; python_full_version >= '3.12'
+shiboken6==6.11.2
+six==1.17.0
+tzdata==2026.5 ; sys_platform == 'emscripten' or sys_platform == 'win32'
