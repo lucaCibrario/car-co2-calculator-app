@@ -13,35 +13,39 @@ The web UI uses bundled Plotly JavaScript and needs no Node.js build. The numeri
 
 ## Install and run
 
-From the repository root:
+Install `uv` from the link above, then run these commands in a terminal (PowerShell, Command Prompt, or a Unix shell):
 
-```powershell
+```text
+git clone https://github.com/lucaCibrario/ECO-Car-Replacement-Advisor.git
+cd ECO-Car-Replacement-Advisor
 uv sync --locked
 uv run --no-sync uvicorn eco_car_advisor.web.api:app --host 127.0.0.1 --port 8000
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000). The server binds to localhost by default in this example, so only the local machine can reach it. Stop it with `Ctrl+C`.
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000). Keep the terminal open while using the app; stop the server with `Ctrl+C`. If port 8000 is occupied, replace `8000` in the command and URL with another free port. Binding to `127.0.0.1` limits access to the local machine.
 
-The committed `uv.lock` fixes dependency versions. `requirements.txt` is a runtime-only export for environments that require pip; maintain dependencies in `pyproject.toml` and regenerate the export after changing the lockfile.
+`uv sync --locked` creates the local `.venv` and installs the versions in the committed `uv.lock`. No Node.js installation or frontend build is needed. The source dependencies are in `pyproject.toml`; `requirements.txt` is a runtime-only export for pip-based environments and is not the primary installation method.
 
 ## Use
 
 1. Select the current car's segment, powertrain, mileage, and country. The electricity mix is filled from the versioned assumptions; choose **Custom** to edit it.
 2. Configure one to eight replacements. Open **Advanced vehicle inputs** to change workbook defaults or enter second-hand vehicle details.
 3. Choose annual mileage, maintenance, end of usage, and optional vehicle lifespans.
-4. Run the analysis. Switch the chart between years and kilometres, compare the summary table, and download CSV or Excel data.
+4. Select **Run analysis**. The **Trajectory** chart shows cumulative emissions and switches between years and kilometres. **Annual breakdown** shows production, end of life, use, and maintenance or battery contributions as stacked bars in tCO₂e/year.
+5. Compare vehicles in the table and export the results as CSV or Excel. Drag the separators to resize setup, chart, and table; double-click a separator to restore its default size. On narrow screens, use the **Setup** and **Results** tabs.
 
-The [full user guide](Data/Documentation/README.md) explains the meaning of the inputs and model. The web UI renders this Markdown guide locally at `/guide`. No data is stored by the application: each analysis and export is computed from the submitted form and the versioned model files.
+The [full user guide](Data/Documentation/README.md) explains the inputs and model. The web UI renders this Markdown guide locally at `/guide`. Analyses and exports are computed from each submitted form; the server does not save scenarios. The browser stores only the chosen panel sizes.
 
 ## Verify
 
 ```powershell
 uv run --no-sync ruff check eco_car_advisor tests
 uv run --no-sync ruff format --check eco_car_advisor tests
+node --check eco_car_advisor/web/static/app.js
 uv run --no-sync python -m unittest discover -s tests -v
 ```
 
-The tests compare model outputs against captured pre-migration scenarios, check all 27 segment/powertrain defaults, exercise HTTP analysis and both exports, and reject invalid inputs. GitHub Actions runs the same checks on Ubuntu and Windows with Python 3.11 and 3.14. These software tests do not independently validate the scientific assumptions in the input workbooks.
+The tests compare model outputs against captured pre-migration scenarios, check all 27 segment/powertrain defaults, exercise HTTP analysis and both exports, and reject invalid inputs. The JavaScript syntax check requires Node.js only for development; it is not needed to run the app. GitHub Actions runs these checks on Ubuntu and Windows with Python 3.11 and 3.14. These software tests do not independently validate the scientific assumptions in the input workbooks.
 
 ## Application structure
 
