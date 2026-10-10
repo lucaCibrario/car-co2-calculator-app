@@ -74,11 +74,22 @@ button:disabled{cursor:not-allowed;opacity:.5}
 .chart-panel{display:grid;grid-template-rows:auto minmax(0,1fr);min-height:0;min-width:0;overflow:hidden}
 .chart-header,.table-header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 15px 6px}
 .chart-header h3,.table-header h3{font-size:14px;letter-spacing:-.02em;margin:2px 0 0}
+.chart-header{padding:7px 10px 4px;align-items:stretch;flex-wrap:wrap}
+.chart-cards{display:flex;gap:5px;min-width:0}
+.chart-card{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px;border:1px solid #dce9df;background:#fff;color:#5d7969;border-radius:7px;padding:5px 9px;cursor:pointer;min-width:0;text-align:left}
+.chart-card strong{font-size:10px;line-height:1.1;white-space:nowrap}
+.chart-card span{font-size:8px;line-height:1.1;white-space:nowrap;color:#879b8d}
+.chart-card.selected{border-color:#77c898;background:#e8f7ed;color:#1c7144}
+.chart-card.selected span{color:#438563}
+.chart-header .segmented{align-self:center}
 .segmented{display:flex;gap:2px;padding:3px;background:#f0f5f0;border-radius:8px}
 .segmented button{border:0;border-radius:6px;background:transparent;color:#82998c;padding:6px 8px;font-size:10px;font-weight:850}
 .segmented button.selected{background:#fff;color:#206a42;box-shadow:0 1px 4px #23483218}
 .chart-stage{position:relative;min-height:0;min-width:0}
 #chart{width:100%;height:100%;min-height:0}
+.chart-x-label,.chart-y-label{position:absolute;pointer-events:none;color:#536d62;font-size:10px;font-weight:750;line-height:1;white-space:nowrap}
+.chart-x-label{bottom:3px;left:50%;transform:translateX(-50%)}
+.chart-y-label{left:5px;top:50%;transform:translate(-50%,-50%) rotate(-90deg)}
 .chart-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;text-align:center;background:#fff;color:#8da899;font-size:11px;padding:20px}
 .chart-placeholder strong{font-size:14px;color:#446d53}
 .table-panel{display:grid;grid-template-rows:auto auto;min-height:0;min-width:0;overflow:hidden}

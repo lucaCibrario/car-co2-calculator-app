@@ -80,6 +80,18 @@ def result_payload(result) -> dict:
     display_cars = table_cars(result)
     for index, car in enumerate(result.cars):
         display = display_cars[index]
+        contributions = {
+            phase: {
+                "percent": float(car[share_key]),
+                "annualCo2": float(car["yearlyCo2"] * car[share_key] / 100),
+            }
+            for phase, share_key in (
+                ("production", "relativeProductionCo2"),
+                ("eol", "relativeEolCo2"),
+                ("use", "relativeUseCo2"),
+                ("maintenance", "relativeMaintenanceCo2"),
+            )
+        }
         rows.append(
             {
                 "label": "Current" if index == 0 else f"Car {index}",
@@ -91,6 +103,7 @@ def result_payload(result) -> dict:
                 "eolPercent": display["relativeEolCo2"],
                 "usePercent": display["relativeUseCo2"],
                 "maintenancePercent": display["relativeMaintenanceCo2"],
+                "contributions": contributions,
                 "breakEvenKm": car.get("BEkm"),
             }
         )

@@ -57,6 +57,19 @@ class WebApiTest(unittest.TestCase):
                 baseline = baselines[name]
                 self.assertEqual(len(payload["rows"]), 2)
                 self.assertEqual(payload["endKm"], baseline["end_km"])
+                for row in payload["rows"]:
+                    contributions = row["contributions"]
+                    self.assertEqual(
+                        set(contributions), {"production", "eol", "use", "maintenance"}
+                    )
+                    self.assertAlmostEqual(
+                        sum(phase["percent"] for phase in contributions.values()), 100, places=5
+                    )
+                    self.assertAlmostEqual(
+                        sum(phase["annualCo2"] for phase in contributions.values()),
+                        row["yearlyCo2"],
+                        delta=0.005,
+                    )
                 for index, car in enumerate(payload["series"]):
                     expected = baseline["cars"][index]
                     self.assertEqual(len(car["xKm"]), expected["x_count"])
