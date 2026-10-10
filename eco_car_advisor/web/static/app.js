@@ -395,6 +395,15 @@ function renderTrajectoryChart() {
 function renderBreakdownChart() {
   const rows = state.result.rows;
   const annual = state.barUnit === "annual";
+  const percentFields = {production: "productionPercent", eol: "eolPercent", use: "usePercent", maintenance: "maintenancePercent"};
+  const contribution = (row, phase) => {
+    const exact = row.contributions?.[phase];
+    if (Number.isFinite(exact?.percent) && Number.isFinite(exact?.annualCo2)) return exact;
+    const percent = phase === "maintenance" && row.maintenancePercent === null
+      ? 100 - row.productionPercent - row.eolPercent - row.usePercent
+      : Number(row[percentFields[phase]]);
+    return {percent, annualCo2: row.yearlyCo2 * percent / 100};
+  };
   const phases = [
     ["production", "Production", "#5c7cfa"],
     ["eol", "End of life", "#a78bfa"],
@@ -403,8 +412,8 @@ function renderBreakdownChart() {
   ];
   const traces = phases.map(([key, label, color]) => ({
     type: "bar", name: label, marker: {color}, x: rows.map(row => row.label),
-    y: rows.map(row => row.contributions[key][annual ? "annualCo2" : "percent"]),
-    customdata: rows.map(row => [row.contributions[key].percent, row.contributions[key].annualCo2]),
+    y: rows.map(row => contribution(row, key)[annual ? "annualCo2" : "percent"]),
+    customdata: rows.map(row => { const value = contribution(row, key); return [value.percent, value.annualCo2]; }),
     hovertemplate: `${label}<br>%{customdata[0]:.1f}% · %{customdata[1]:.2f} tCO₂e/year<extra>%{x}</extra>`,
   }));
   const maxValue = Math.max(...rows.map(row => annual ? row.yearlyCo2 : 100));
