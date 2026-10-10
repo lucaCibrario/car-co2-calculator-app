@@ -7,9 +7,31 @@ import pandas as pd
 from eco_car_advisor.analysis import AnalysisResult
 
 
+def table_cars(result: AnalysisResult) -> list[dict]:
+    """Apply the historical table rounding and savings to copies of vehicle data."""
+    cars = [dict(car) for car in result.cars]
+    current_total = cars[0]["THco2"]
+    for index, car in enumerate(cars):
+        car["co2Savings"] = None if index == 0 else current_total - car["THco2"]
+        production = round(car["relativeProductionCo2"], 1)
+        eol = round(car["relativeEolCo2"], 1)
+        use = round(car["relativeUseCo2"], 1)
+        maintenance = car["relativeMaintenanceCo2"]
+        if result.settings["maintenance"] or (car["engineType"] == "BEV" and maintenance != 0):
+            maintenance = round(100 - production - eol - use, 1)
+        else:
+            maintenance = None
+            use = round(100 - production - eol, 1)
+        car["relativeProductionCo2"] = production
+        car["relativeEolCo2"] = eol
+        car["relativeUseCo2"] = use
+        car["relativeMaintenanceCo2"] = maintenance
+    return cars
+
+
 def build_export_frame(result: AnalysisResult) -> pd.DataFrame:
     """Build the historical flat export schema from an analysis result."""
-    full = pd.DataFrame(result.cars)
+    full = pd.DataFrame(table_cars(result))
     full.rename(columns={"mileage": "mileageAtChange"}, inplace=True)
     full["maintenance"] = result.settings.get("maintenance", False)
     full["EoUmileage"] = result.threshold_mileage[1] * 1000

@@ -1,21 +1,25 @@
 [project]
 name = "eco-car-replacement-advisor"
 version = "0.1.0"
-description = "Desktop app for comparing life-cycle CO2 emissions when replacing a car"
+description = "Web app for comparing life-cycle CO2 emissions when replacing a car"
 readme = "README.md"
 requires-python = ">=3.11,<3.15"
 dependencies = [
+    "fastapi>=0.115,<1",
+    "markdown>=3.7,<4",
     "numpy>=2.4.2,<3",
     "openpyxl>=3.1.5,<4",
     "pandas>=3.0.0,<4",
     "plotly>=6.5.2,<7",
-    "PySide6>=6.10.2,<7",
     "scipy>=1.17.0,<2",
+    "uvicorn>=0.30,<1",
 ]
 
 [dependency-groups]
-build = ["pyinstaller>=6.18.0,<7"]
-dev = ["ruff==0.16.10"]
+dev = [
+    "httpx>=0.27,<1",
+    "ruff==0.16.10",
+]
 
 [tool.uv]
 package = false

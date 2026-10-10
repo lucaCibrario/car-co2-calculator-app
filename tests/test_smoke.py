@@ -5,8 +5,8 @@ from os import chdir, getcwd
 from pathlib import Path
 from tempfile import TemporaryDirectory
 
-import EcoCarReplacementAdvisor  # noqa: F401 - verifies GUI imports
 from eco_car_advisor.data import DataRepository
+from eco_car_advisor.web.api import app  # noqa: F401 - verifies web imports
 
 
 class ApplicationSmokeTest(unittest.TestCase):
@@ -26,7 +26,7 @@ class ApplicationSmokeTest(unittest.TestCase):
                 self.assertTrue(DataRepository().load()["maintenance"].shape[0] > 0)
                 from eco_car_advisor.resources import resource_path
 
-                self.assertTrue(Path(resource_path("Icons/Options.png")).is_file())
+                self.assertTrue(Path(resource_path("Data/Documentation/README.md")).is_file())
             finally:
                 chdir(original)
 

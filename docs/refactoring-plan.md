@@ -1,5 +1,7 @@
 # Production refactoring plan
 
+> Historical record of the desktop refactor. The current application is the web app described in the [README](../README.md) and [migration note](webapp-migration-brief.md).
+
 ## Scope and invariant
 
 The work takes place on `refactor/production-ready`. `main` is unchanged until the owner tests and approves a merge. The application's visible controls, input interpretation, CO₂ calculations, plot traces, table values, export columns, and bundled data remain compatible unless a separately documented defect requires a fix. New source code, comments, and identifiers use English.

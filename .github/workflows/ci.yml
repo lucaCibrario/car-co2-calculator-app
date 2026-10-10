@@ -2,15 +2,16 @@ name: Quality checks
 
 on:
   push:
-    branches: [main, "refactor/**"]
+    branches: [main, "codex/**"]
   pull_request:
 
 jobs:
-  windows:
-    runs-on: windows-latest
+  quality:
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest]
         python-version: ["3.11", "3.14"]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -21,10 +22,8 @@ jobs:
         run: uv sync --locked
       - name: Lint and format
         run: |
-          uv run --no-sync ruff check eco_car_advisor tests EcoCarReplacementAdvisor.py
-          uv run --no-sync ruff format --check eco_car_advisor tests EcoCarReplacementAdvisor.py
-      - name: Run regression and GUI workflow tests
-        env:
-          QT_QPA_PLATFORM: offscreen
-          QTWEBENGINE_DISABLE_SANDBOX: "1"
+          uv run --no-sync ruff check eco_car_advisor tests
+          uv run --no-sync ruff format --check eco_car_advisor tests
+          node --check eco_car_advisor/web/static/app.js
+      - name: Run regression and web API tests
         run: uv run --no-sync python -m unittest discover -s tests -v

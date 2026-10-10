@@ -1,4 +1,4 @@
-"""Resolve application assets in source and PyInstaller builds."""
+"""Resolve versioned model data and documentation independent of the working directory."""
 
 import sys
 from pathlib import Path

@@ -28,6 +28,12 @@ class ExportTest(unittest.TestCase):
         self.assertEqual(frame.columns[23], "EoUmileage")
         self.assertEqual(frame.columns[24], "EoUage")
         self.assertNotIn("emissionHystory", frame)
+        self.assertIn("co2Savings", frame)
+        self.assertTrue(pd.isna(frame.loc[0, "co2Savings"]))
+        self.assertAlmostEqual(
+            frame.loc[1, "co2Savings"],
+            self.result.cars[0]["THco2"] - self.result.cars[1]["THco2"],
+        )
 
         with tempfile.TemporaryDirectory() as directory:
             csv_path = write_export(frame, str(Path(directory) / "result.csv"), "CSV Files (*.csv)")

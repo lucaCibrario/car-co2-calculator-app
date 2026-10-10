@@ -12,10 +12,8 @@
   - [Analysis Settings](#analysis-settings)
 - [Carbon Footprint Analysis](#carbon-footprint-analysis)
   - [Plot](#plot)
-  - [Tables](#tables)
-- [Menu](#menu)
-  - [File](#file-menu)
-  - [Help](#help-menu)
+  - [End-of-Usage Table](#end-of-usage-eou-table)
+- [Exports](#exports)
 - [Notes](#notes)
 - [Contact](#contact)
 - [License](#license)
@@ -39,15 +37,19 @@ ECO Car Replacement Advisor is a tool for assessing the environmental impact of 
 
 ## Installation
 
-1. Download the latest `.exe` file.
-2. Double-click the file to run the application.
+1. Install Python 3.11–3.14 and [uv](https://docs.astral.sh/uv/getting-started/installation/).
+2. In the repository directory, run `uv sync --locked`.
+3. Start the local server with `uv run --no-sync uvicorn eco_car_advisor.web.api:app --host 127.0.0.1 --port 8000`.
+4. Open `http://127.0.0.1:8000` in a browser.
+
+The application is intended for FAAS members. A remote deployment requires an approved authentication layer.
 
 ## Quick Start
 Follow these simple steps to get started:
 
 - Fill in your current car details – including mileage, segment, fuel type, and energy mix.
 - Define the new car(s) – add one or more vehicles to compare, specifying engine type, usage patterns, and optional advanced settings.
-- Click "Compute Carbon Footprint" – the app will generate interactive plots and data tables showing CO₂ emission trends, break-even points, and more.
+- Click **Run carbon analysis** – the app will generate an interactive plot and comparison table.
 
 Need more information? Check the full documentation below for detailed guidance.
 
@@ -129,8 +131,7 @@ These are the settings for defining the current car that may be replaced.
   The Tank-to-Wheel (TTW) Emissions capture the CO₂ emissions produced when the fuel is combusted inside the vehicle engine during driving.
   TTW represents the direct operational emissions of the vehicle and depends primarily on fuel type and engine efficiency.
 
-- **Reset** button  
-  To restore the default values.
+- **Reset technical inputs to workbook defaults** restores the selected segment and powertrain's technical parameters. This control is under **Advanced vehicle inputs**.
 
 - **BEV Battery Settings (BEVs only):**
   - **Battery Capacity (kWh)**
@@ -145,8 +146,7 @@ These are the settings for defining the current car that may be replaced.
 ### **New Car(s)**
 
 This section allows defining the alternative(s) to the current car for evaluation.  
-New cars are added by pressing the green **Plus** button, while the red **Minus** button removes them.  
-Each new car can be quickly defined through its **segment** and **engine type**, but additional parameters can be set via a dialog box triggered by the **Gear** button.
+Select **Add another replacement car** to compare up to eight alternatives. Use **Remove** on a card to discard it. Each car has segment and powertrain selectors; **Advanced vehicle inputs** expands the remaining fields.
 
 The available parameters are listed below (the description of each field can be found in the [Current Car Details](#current-car-details) section):
 
@@ -175,9 +175,7 @@ The available parameters are listed below (the description of each field can be 
   - **Battery Production Footprint (kgCO₂/kWh)**
   - **Estimated life time (km)**
 
-- **Reset** button: Restores default values.  
-
-- **Save** button: Saves the current changes. *(If the window is closed without saving, all changes will be lost.)*  
+- **Reset technical inputs to workbook defaults** restores the selected vehicle's technical parameters. Inputs remain in the browser form until changed or the page is reloaded.
 
 
 ### **Analysis Settings**
@@ -203,24 +201,23 @@ These additional settings affect the carbon footprint computation.
   Defines whether compulsory and extraordinary maintenance is performed.  
   This affects the degradation of fuel/electric consumption over time.
 
-- **Advanced Analysis Settings**  
-  Those settings can be accessed by clicking on the **Gear** button in the **Analysis Settings** area.
+- **Vehicle lifespan assumptions**
+  Expand this section under **Analysis settings**.
   - **ICE Car Life Span (km)**: Expected lifespan of an ICE car.  
   - **BEV Car Life Span (km)**: Expected lifespan of a BEV.    
-  - **Reset** button: Restores default values.
-  - **Save** button: Stores new values. *(If the window is closed without saving, all changes will be lost.)*
+  Changes apply when **Run carbon analysis** is selected. Reloading the page restores workbook defaults.
 
 
 
 ## **Carbon Footprint Analysis**
 
 This is the output section, where **CO₂ Footprint History** is displayed and analyzed to make comparisons and find the best alternative.  
-The computation starts when the **Compute Carbon Footprint** button is pressed.
+The computation starts when **Run carbon analysis** is selected.
 
 The available units of measure for the analysis are:
 - **years**
 - **kilometers**  
-When the units of measure are changed, the plot, tables and **Output data analysis options** are updated accordingly.
+The **Years** and **Kilometres** controls switch the plot axis. The comparison table remains at the same end-of-usage point.
 Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
 
 
@@ -277,14 +274,9 @@ The table is automatically updated based on user settings such as intended usage
 
 
 
-## **Menu**
+## Exports
 
-### **File Menu**
-
-The **File Menu** provides options related to data management and export.
-
-- **Export Data**  
-  This function allows the user to export the **input** and **output** data of the **most recent simulation** in a structured format (e.g., Excel or CSV), allowing the user to archive, share, or re-load the simulation details in future versions.  
+The **CSV** and **Excel** buttons above the comparison table download the input and output values for the most recent analysis. Editing any input disables export until the analysis is run again.
 
   The exported file includes:
 
@@ -301,8 +293,8 @@ The **File Menu** provides options related to data management and export.
     | `secondHandCarAge` | Age (years) when the car was bought used |
     | `massValue` | Mass of the vehicle in kilograms |
     | `carProductionFootprint` | CO₂ footprint of vehicle production and EoL (kgCO₂/kg) |
-    | `meanConsumptionLiter` | Fuel consumption for ICE (liters/10  0 km) |
-    | `meanConsumptionWh` | Electricity consumption for EM (Wh/km) |
+    | `meanConsumptionLiter` | Fuel consumption for ICE (liters/100 km) |
+    | `meanConsumptionWh` | Electricity consumption for EM (kWh/100 km) |
     | `drivingShare` | Share of driving in electric mode (for PHEVs, 0 to 1) |
     | `country` | Country or region for electricity mix |
     | `energyMix` | Electricity carbon intensity (gCO₂/kWh) |
@@ -322,12 +314,12 @@ The **File Menu** provides options related to data management and export.
     |-------|-------------|
     | `EoUmileage` | Mileage at the End-of-Usage (EoU) point |
     | `EoUage` | Age at the End-of-Usage (EoU) point |
-    | `productionEoL` | CO₂ emissions from production and end-of-life (kgCO₂) |
+    | `productionEoL` | CO₂ emissions from production and end-of-life (gCO₂) |
     | `depreciation` | Share of production and EoL attributed to the user |
-    | `usePhaseEmissions` | CO₂ emissions during the use phase (kgCO₂) |
+    | `usePhaseEmissions` | CO₂ emissions during the use phase (gCO₂/km) |
     | `carLifeSpan` | Vehicle’s estimated life span (km) |
-    | `THco2` | Total historical emissions of the vehicle (kgCO₂) at EoU |
-    | `DeltaTHco2` | CO₂ difference vs. current car at between EoU and time of replacement of the current car|
+    | `THco2` | Cumulative emissions of the vehicle (tCO₂) at EoU |
+    | `DeltaTHco2` | Change in cumulative emissions (tCO₂) from replacement to EoU |
     | `yearlyCo2` | Average yearly emissions (tCO₂/year) |
     | `relativeProductionCo2` | % of yearly emissions from production |
     | `relativeEolCo2` | % of yearly emissions from end-of-life |
@@ -340,17 +332,10 @@ The **File Menu** provides options related to data management and export.
     | `DeltaBEco2` | Variation in break-even emissions from baseline |
 
 
-### **Help Menu**
-
-Through the **Help Menu**, the user can access:
-- The **Full Documentation** in PDF format.  
-- A **Quick Intro** guide to get started.
-
-
 ---
 
 ## **Notes**
-- Every time a field in the input section is changed, the **Compute Carbon Footprint** button must be pressed to update results.
+- Every time an input changes, **Run carbon analysis** must be selected to update results. Stale results are cleared automatically.
 - **Tip:** Hover over editable fields and column headers in the app for detailed tooltips.
 
 
