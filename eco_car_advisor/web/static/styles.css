@@ -82,6 +82,7 @@ button:disabled{cursor:not-allowed;opacity:.5}
 .chart-card.selected{border-color:#77c898;background:#e8f7ed;color:#1c7144}
 .chart-card.selected span{color:#438563}
 .chart-header .segmented{align-self:center}
+.chart-unit-label{align-self:center;border-radius:7px;background:#f0f5f0;color:#547b65;padding:8px 10px;font-size:10px;font-weight:850;white-space:nowrap}
 .segmented{display:flex;gap:2px;padding:3px;background:#f0f5f0;border-radius:8px}
 .segmented button{border:0;border-radius:6px;background:transparent;color:#82998c;padding:6px 8px;font-size:10px;font-weight:850}
 .segmented button.selected{background:#fff;color:#206a42;box-shadow:0 1px 4px #23483218}

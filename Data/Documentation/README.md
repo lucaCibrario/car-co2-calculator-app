@@ -222,7 +222,7 @@ The available units of measure for the analysis are:
 Select **Trajectory** to see cumulative CO₂e over time. The **Years** and **Kilometres** controls switch its horizontal axis. The vertical axis is cumulative tCO₂e. The comparison table remains at the same end-of-usage point.
 Data are transformed from kilometers to years and viceversa through the **Average annual mileage (km)** parameter.
 
-Select **Annual breakdown** to compare one stacked column per vehicle. Each color represents production, end of life, use, or maintenance and battery replacement. The **%** view shows each phase's share of the vehicle's annual total; **tCO₂e/yr** shows its average annual contribution. These values use the model's unrounded phase shares, while the table displays rounded values. The annual average for the current car covers its modeled lifespan; each replacement average covers the period after acquisition.
+Select **Annual breakdown** to compare one stacked column per vehicle in tCO₂e/year. Each color represents the average annual contribution from production, end of life, use, or maintenance and battery replacement. The chart uses the model's unrounded phase values, while the table displays rounded values. The annual average for the current car covers its modeled lifespan; each replacement average covers the period after acquisition.
 
 
 ### **Plot**

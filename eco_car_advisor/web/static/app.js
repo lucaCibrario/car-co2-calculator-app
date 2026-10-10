@@ -1,6 +1,6 @@
 "use strict";
 
-const state = { config: null, alternatives: [], result: null, scenario: null, unit: "years", chartType: "trajectory", barUnit: "percent", pendingDefaults: 0 };
+const state = { config: null, alternatives: [], result: null, scenario: null, unit: "years", chartType: "trajectory", pendingDefaults: 0 };
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const numberFields = ["mileage", "energyMix", "secondHandCarMileage", "secondHandCarAge", "meanConsumptionLiter", "meanConsumptionWh", "drivingShare", "massValue", "carProductionFootprint", "WTT", "TTW", "batteryCapacity", "batteryProductionFootprint", "batteryLifeTime"];
@@ -394,7 +394,6 @@ function renderTrajectoryChart() {
 
 function renderBreakdownChart() {
   const rows = state.result.rows;
-  const annual = state.barUnit === "annual";
   const percentFields = {production: "productionPercent", eol: "eolPercent", use: "usePercent", maintenance: "maintenancePercent"};
   const contribution = (row, phase) => {
     const exact = row.contributions?.[phase];
@@ -412,16 +411,15 @@ function renderBreakdownChart() {
   ];
   const traces = phases.map(([key, label, color]) => ({
     type: "bar", name: label, marker: {color}, x: rows.map(row => row.label),
-    y: rows.map(row => contribution(row, key)[annual ? "annualCo2" : "percent"]),
-    customdata: rows.map(row => { const value = contribution(row, key); return [value.percent, value.annualCo2]; }),
-    hovertemplate: `${label}<br>%{customdata[0]:.1f}% · %{customdata[1]:.2f} tCO₂e/year<extra>%{x}</extra>`,
+    y: rows.map(row => contribution(row, key).annualCo2),
+    hovertemplate: `${label}<br>%{y:.2f} tCO₂e/year<extra>%{x}</extra>`,
   }));
-  const maxValue = Math.max(...rows.map(row => annual ? row.yearlyCo2 : 100));
+  const maxValue = Math.max(...rows.map(row => row.yearlyCo2));
   window.Plotly.react("chart", traces, {
     paper_bgcolor: "transparent", plot_bgcolor: "transparent", font: {family: "Inter, Segoe UI, sans-serif", color: "#677a79", size: 11},
     margin: {l: 48, r: 18, t: 18, b: 72}, barmode: "relative", bargap: 0.38,
     xaxis: {type: "category", gridcolor: "#e6edeb", zeroline: false, tickfont: {size: 10}},
-    yaxis: {rangemode: "tozero", range: [0, maxValue * 1.08], gridcolor: "#e6edeb", zeroline: false, ticksuffix: annual ? "" : "%"},
+    yaxis: {rangemode: "tozero", range: [0, maxValue * 1.08], gridcolor: "#e6edeb", zeroline: false},
     legend: {orientation: "h", y: -0.18, x: 0, font: {size: 10}},
     hovermode: "closest", dragmode: "pan",
   }, {responsive: true, displaylogo: false, modeBarButtonsToRemove: ["toImage"]});
@@ -431,10 +429,10 @@ function renderChart() {
   if (!state.result || !window.Plotly) return;
   const breakdown = state.chartType === "breakdown";
   $("#chart-x-label").textContent = breakdown ? "Vehicle" : state.unit === "km" ? "Current car mileage (1,000 km)" : "Current car age (years)";
-  $("#chart-y-label").textContent = breakdown ? state.barUnit === "annual" ? "Annual CO₂e (tCO₂e/year)" : "Share of annual CO₂e (%)" : "Cumulative CO₂e (tCO₂e)";
+  $("#chart-y-label").textContent = breakdown ? "Annual CO₂e (tCO₂e/year)" : "Cumulative CO₂e (tCO₂e)";
   $("#chart-x-label").classList.remove("hidden");
   $("#chart-y-label").classList.remove("hidden");
-  $("#chart").setAttribute("aria-label", breakdown ? `Annual emissions by life-cycle phase, ${state.barUnit === "annual" ? "tonnes of CO2 equivalent per year" : "percentage"}` : "Life-cycle emissions trajectory");
+  $("#chart").setAttribute("aria-label", breakdown ? "Annual emissions by life-cycle phase, tonnes of CO2 equivalent per year" : "Life-cycle emissions trajectory");
   if (breakdown) renderBreakdownChart();
   else renderTrajectoryChart();
 }
@@ -531,17 +529,12 @@ async function initialize() {
       state.chartType = button.dataset.chartType;
       $$("[data-chart-type]").forEach(item => { item.classList.toggle("selected", item === button); item.setAttribute("aria-pressed", item === button ? "true" : "false"); });
       $("#trajectory-units").classList.toggle("hidden", state.chartType !== "trajectory");
-      $("#breakdown-units").classList.toggle("hidden", state.chartType !== "breakdown");
+      $("#breakdown-unit").classList.toggle("hidden", state.chartType !== "breakdown");
       renderChart();
     }));
     $$("[data-unit]").forEach(button => button.addEventListener("click", () => {
       state.unit = button.dataset.unit;
       $$("[data-unit]").forEach(item => { item.classList.toggle("selected", item === button); item.setAttribute("aria-pressed", item === button ? "true" : "false"); });
-      renderChart();
-    }));
-    $$("[data-bar-unit]").forEach(button => button.addEventListener("click", () => {
-      state.barUnit = button.dataset.barUnit;
-      $$("[data-bar-unit]").forEach(item => { item.classList.toggle("selected", item === button); item.setAttribute("aria-pressed", item === button ? "true" : "false"); });
       renderChart();
     }));
   } catch (error) { showError(`Unable to initialize the application: ${error.message}`); }
