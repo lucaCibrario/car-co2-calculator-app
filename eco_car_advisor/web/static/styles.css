@@ -86,11 +86,18 @@ button:disabled{cursor:not-allowed;opacity:.5}
 .segmented{display:flex;gap:2px;padding:3px;background:#f0f5f0;border-radius:8px}
 .segmented button{border:0;border-radius:6px;background:transparent;color:#82998c;padding:6px 8px;font-size:10px;font-weight:850}
 .segmented button.selected{background:#fff;color:#206a42;box-shadow:0 1px 4px #23483218}
-.chart-stage{position:relative;min-height:0;min-width:0}
-#chart{width:100%;height:100%;min-height:0}
-.chart-x-label,.chart-y-label{position:absolute;pointer-events:none;color:#536d62;font-size:10px;font-weight:750;line-height:1;white-space:nowrap}
-.chart-x-label{bottom:3px;left:50%;transform:translateX(-50%)}
-.chart-y-label{left:5px;top:50%;transform:translate(-50%,-50%) rotate(-90deg)}
+.chart-stage{position:relative;display:grid;grid-template-columns:21px minmax(0,1fr);grid-template-rows:minmax(0,1fr) auto auto;column-gap:3px;min-height:0;min-width:0;padding:0 11px 7px 8px}
+#chart{grid-column:2;grid-row:1;width:100%;height:100%;min-height:0}
+.chart-x-label,.chart-y-label{pointer-events:none;color:#536d62;font-size:10px;font-weight:750;line-height:1;white-space:nowrap}
+.chart-x-label{grid-column:2;grid-row:2;justify-self:center;margin:3px 0 6px}
+.chart-y-label{grid-column:1;grid-row:1;justify-self:center;align-self:center;writing-mode:vertical-rl;transform:rotate(180deg)}
+.chart-legend{grid-column:2;grid-row:3;display:flex;align-items:center;gap:13px;min-width:0;overflow-x:auto;white-space:nowrap;scrollbar-width:none;color:#677a79;font-size:10px}
+.chart-legend::-webkit-scrollbar{display:none}
+.chart-legend-item{display:inline-flex;align-items:center;gap:5px;flex:none;border:0;background:transparent;color:inherit;padding:0;font-size:inherit;white-space:nowrap}
+.chart-legend-item[aria-pressed=false]{opacity:.45}
+.chart-legend-item:focus-visible{outline:2px solid #268855;outline-offset:2px;border-radius:2px}
+.chart-legend-swatch{display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--legend-color)}
+.chart-legend.trajectory .chart-legend-swatch{width:23px;height:3px;border-radius:0}
 .chart-placeholder{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;text-align:center;background:#fff;color:#8da899;font-size:11px;padding:20px}
 .chart-placeholder strong{font-size:14px;color:#446d53}
 .table-panel{display:grid;grid-template-rows:auto auto;min-height:0;min-width:0;overflow:hidden}

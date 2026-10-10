@@ -1,6 +1,13 @@
 "use strict";
 
-const state = { config: null, alternatives: [], result: null, scenario: null, unit: "years", chartType: "trajectory", pendingDefaults: 0 };
+const state = { config: null, alternatives: [], result: null, scenario: null, unit: "years", chartType: "trajectory", hiddenSeries: {trajectory: new Set(), breakdown: new Set()}, pendingDefaults: 0 };
+const vehicleColors = ["#84e4b0", "#5c7cfa", "#e8a567", "#a78bfa", "#ee83a8", "#50bacc", "#d5bd69", "#91c476", "#e9a8df"];
+const phaseStyles = [
+  ["production", "Production", "#5c7cfa"],
+  ["eol", "End of life", "#a78bfa"],
+  ["use", "Use", "#e8a567"],
+  ["maintenance", "Maintenance / battery", "#4dbb8c"],
+];
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const numberFields = ["mileage", "energyMix", "secondHandCarMileage", "secondHandCarAge", "meanConsumptionLiter", "meanConsumptionWh", "drivingShare", "massValue", "carProductionFootprint", "WTT", "TTW", "batteryCapacity", "batteryProductionFootprint", "batteryLifeTime"];
@@ -27,7 +34,21 @@ function options(items, selected) {
 
 function numericField(key, label, unit, value, required = false) {
   const tip = state.config.tooltips[key] || "";
-  return `<label class="field" data-row="${key}" title="${escapeHtml(tip)}"><span>${label} <small>${unit}</small></span><input data-field="${key}" type="number" min="0" step="any" ${required ? "required" : ""} value="${value ?? ""}"></label>`;
+  const step = key === "secondHandCarMileage" ? 10000 : 1;
+  return `<label class="field" data-row="${key}" title="${escapeHtml(tip)}"><span>${label} <small>${unit}</small></span><input data-field="${key}" type="number" min="0" step="${step}" ${required ? "required" : ""} value="${value ?? ""}"></label>`;
+}
+
+function alignSpinner(input) {
+  if (input.dataset.minimum === undefined) input.dataset.minimum = input.min || "0";
+  const minimum = Number(input.dataset.minimum);
+  const step = Number(input.step);
+  const value = input.valueAsNumber;
+  if (!Number.isFinite(value) || !Number.isFinite(step) || step <= 0) {
+    input.min = String(minimum);
+    return;
+  }
+  const offset = ((value - minimum) % step + step) % step;
+  input.min = String(minimum + Number(offset.toFixed(8)));
 }
 
 function vehicleMarkup(vehicle, index, current) {
@@ -35,7 +56,7 @@ function vehicleMarkup(vehicle, index, current) {
   return `<div class="vehicle-form" data-vehicle="${current ? "current" : index}">
     ${!current ? `<div class="replacement-top"><span class="replacement-badge">OPTION ${String(index + 1).padStart(2, "0")}</span><button class="remove-car" type="button" aria-label="Remove replacement ${index + 1}">Remove ×</button></div>` : ""}
     <div class="field-grid"><label class="field"><span>Vehicle segment</span><select data-field="carSegment">${options(state.config.segments, vehicle.carSegment)}</select></label><label class="field"><span>Powertrain</span><select data-field="engineType">${options(state.config.engines, vehicle.engineType)}</select></label></div>
-    ${current ? `<div class="field-grid"><label class="field"><span>Current mileage <small>km</small></span><input data-field="mileage" type="number" min="0" step="any" required value="${vehicle.mileage ?? ""}" placeholder="e.g. 80,000"></label><label class="field"><span>Country</span><select data-field="country">${options(state.config.countries, vehicle.country)}</select></label></div>${numericField("energyMix", "Electricity mix", "gCO₂ / kWh", vehicle.energyMix, true)}` : ""}
+    ${current ? `<div class="field-grid"><label class="field"><span>Current mileage <small>km</small></span><input data-field="mileage" type="number" min="0" step="10000" required value="${vehicle.mileage ?? ""}" placeholder="e.g. 80,000"></label><label class="field"><span>Country</span><select data-field="country">${options(state.config.countries, vehicle.country)}</select></label></div>${numericField("energyMix", "Electricity mix", "gCO₂ / kWh", vehicle.energyMix, true)}` : ""}
     <details class="advanced vehicle-advanced"><summary>Advanced vehicle inputs <span>⌄</span></summary><div class="advanced-body"><label class="check-field"><input data-field="secondHandCar" type="checkbox" ${vehicle.secondHandCar ? "checked" : ""}><span>Purchased second hand</span></label><div class="field-grid secondhand-fields">${numericField("secondHandCarMileage", "Mileage when purchased", "km", vehicle.secondHandCarMileage)}${numericField("secondHandCarAge", "Age when purchased", "years", vehicle.secondHandCarAge)}</div><div class="field-grid technical-fields">${fieldDefinitions.map(([key, label, unit]) => numericField(key, label, unit, vehicle[key])).join("")}</div><button type="button" class="reset-vehicle">Reset technical inputs to workbook defaults</button></div></details>
   </div>`;
 }
@@ -64,6 +85,7 @@ function renderVehicles() {
   const current = state.current || state.config.defaults.current;
   $("#current-form").innerHTML = vehicleMarkup(current, 0, true);
   $("#alternatives").innerHTML = state.alternatives.map((car, index) => `<section class="panel replacement-panel">${vehicleMarkup(car, index, false)}</section>`).join("");
+  $$(".vehicle-form input[type=number]").forEach(alignSpinner);
   $$(".vehicle-form").forEach(setVehicleVisibility);
   $$(".remove-car").forEach((button, index) => { button.disabled = state.alternatives.length === 1; button.addEventListener("click", () => {
     storeVehicleForms();
@@ -108,7 +130,7 @@ async function request(url, options = {}) {
   return response;
 }
 
-async function updateDefaults(form, resetAll = false) {
+async function updateDefaults(form) {
   invalidateResults();
   const segment = $('[data-field="carSegment"]', form).value;
   const engine = $('[data-field="engineType"]', form).value;
@@ -122,12 +144,9 @@ async function updateDefaults(form, resetAll = false) {
     if (!form.isConnected || Number(form.dataset.defaultsSequence) !== sequence) return;
     if ($('[data-field="carSegment"]', form).value !== segment || $('[data-field="engineType"]', form).value !== engine) return;
     for (const [key] of fieldDefinitions) $(`[data-field="${key}"]`, form).value = defaults[key] ?? "";
-    if (engine === "BEV") $('[data-field="batteryLifeTime"]', form).value = $("#bev-lifespan").value;
-    if (resetAll) {
-      $('[data-field="secondHandCar"]', form).checked = false;
-      for (const key of ["secondHandCarMileage", "secondHandCarAge"]) $(`[data-field="${key}"]`, form).value = "";
-    }
+    $$("input[type=number]", form).forEach(alignSpinner);
     setVehicleVisibility(form);
+    showError("");
   } catch (error) { showError(error.message); }
   finally {
     state.pendingDefaults -= 1;
@@ -345,6 +364,7 @@ function invalidateResults() {
     $("#chart-placeholder").classList.remove("hidden");
     $("#chart-x-label").classList.add("hidden");
     $("#chart-y-label").classList.add("hidden");
+    $("#chart-legend").classList.add("hidden");
     $("#results-body").innerHTML = '<tr><td colspan="9" class="empty-table">Results will appear after analysis.</td></tr>';
   }
 }
@@ -364,29 +384,28 @@ function renderTable(rows) {
 function renderTrajectoryChart() {
   const result = state.result;
   const km = state.unit === "km";
-  const colors = ["#84e4b0", "#5c7cfa", "#e8a567", "#a78bfa", "#ee83a8", "#50bacc", "#d5bd69", "#91c476", "#e9a8df"];
   const traces = [];
   const current = result.series[0];
   result.series.forEach((car, index) => {
+    const visible = state.hiddenSeries.trajectory.has(index) ? "legendonly" : true;
     const xs = km ? car.xKm.map(value => value / 1000) : car.xYears;
     const lastSolid = car.xKm.findLastIndex(value => value <= car.lifeSpanKm);
     const split = Math.max(lastSolid, 0);
     const acquisitionKm = car.xKm[0];
     const currentIndex = current.xKm.findIndex(value => value >= acquisitionKm);
     const baseline = index === 0 ? 0 : current.emissions[Math.max(currentIndex, 0)];
-    traces.push({x: [xs[0], xs[0]], y: [baseline, car.emissions[0]], type: "scatter", mode: "lines", showlegend: false, line: {color: colors[index], width: 3}, hoverinfo: "skip"});
-    traces.push({x: xs.slice(0, split + 1), y: car.emissions.slice(0, split + 1), type: "scatter", mode: "lines", name: car.label, line: {color: colors[index], width: 3}, hovertemplate: `%{x:,.1f}<br>%{y:,.2f} tCO₂e<extra>${escapeHtml(car.label)}</extra>`});
-    if (split < xs.length - 1) traces.push({x: xs.slice(split), y: car.emissions.slice(split), type: "scatter", mode: "lines", showlegend: false, line: {color: colors[index], width: 2, dash: "dash"}, hoverinfo: "skip"});
+    traces.push({x: [xs[0], xs[0]], y: [baseline, car.emissions[0]], type: "scatter", mode: "lines", visible, showlegend: false, line: {color: vehicleColors[index], width: 3}, hoverinfo: "skip"});
+    traces.push({x: xs.slice(0, split + 1), y: car.emissions.slice(0, split + 1), type: "scatter", mode: "lines", visible, name: car.label, line: {color: vehicleColors[index], width: 3}, hovertemplate: `%{x:,.1f}<br>%{y:,.2f} tCO₂e<extra>${escapeHtml(car.label)}</extra>`});
+    if (split < xs.length - 1) traces.push({x: xs.slice(split), y: car.emissions.slice(split), type: "scatter", mode: "lines", visible, showlegend: false, line: {color: vehicleColors[index], width: 2, dash: "dash"}, hoverinfo: "skip"});
   });
   const end = km ? result.endKm / 1000 : result.endYears;
   const range = km ? result.kmRange : result.yearsRange;
   const paddedRange = [range[0] - (range[1] - range[0]) * 0.025, range[1]];
   window.Plotly.react("chart", traces, {
     paper_bgcolor: "transparent", plot_bgcolor: "transparent", font: {family: "Inter, Segoe UI, sans-serif", color: "#677a79", size: 12},
-    margin: {l: 48, r: 18, t: 16, b: 68}, hovermode: "x unified", dragmode: "pan",
+    margin: {l: 37, r: 12, t: 16, b: 32}, hovermode: "x unified", dragmode: "pan", showlegend: false,
     xaxis: {range: paddedRange, gridcolor: "#e6edeb", zeroline: false},
     yaxis: {range: result.yRange, gridcolor: "#e6edeb", zeroline: false},
-    legend: {orientation: "h", y: -0.13, x: 0, font: {size: 10}},
     shapes: [{type: "line", x0: end, x1: end, y0: result.yRange[0], y1: result.yRange[1], line: {color: "#92a2a0", width: 1.5, dash: "dot"}}],
     annotations: [{x: end, y: result.yRange[1], text: "End of usage", showarrow: false, xanchor: "right", yanchor: "top", font: {size: 11, color: "#516663"}}],
   }, {responsive: true, displaylogo: false, scrollZoom: true, modeBarButtonsToRemove: ["toImage"]});
@@ -403,24 +422,17 @@ function renderBreakdownChart() {
       : Number(row[percentFields[phase]]);
     return {percent, annualCo2: row.yearlyCo2 * percent / 100};
   };
-  const phases = [
-    ["production", "Production", "#5c7cfa"],
-    ["eol", "End of life", "#a78bfa"],
-    ["use", "Use", "#e8a567"],
-    ["maintenance", "Maintenance / battery", "#4dbb8c"],
-  ];
-  const traces = phases.map(([key, label, color]) => ({
-    type: "bar", name: label, marker: {color}, x: rows.map(row => row.label),
+  const traces = phaseStyles.map(([key, label, color], index) => ({
+    type: "bar", name: label, marker: {color}, visible: state.hiddenSeries.breakdown.has(index) ? "legendonly" : true, x: rows.map(row => row.label),
     y: rows.map(row => contribution(row, key).annualCo2),
     hovertemplate: `${label}<br>%{y:.2f} tCO₂e/year<extra>%{x}</extra>`,
   }));
   const maxValue = Math.max(...rows.map(row => row.yearlyCo2));
   window.Plotly.react("chart", traces, {
     paper_bgcolor: "transparent", plot_bgcolor: "transparent", font: {family: "Inter, Segoe UI, sans-serif", color: "#677a79", size: 11},
-    margin: {l: 48, r: 18, t: 18, b: 72}, barmode: "relative", bargap: 0.38,
+    margin: {l: 37, r: 12, t: 18, b: 32}, barmode: "relative", bargap: 0.38, showlegend: false,
     xaxis: {type: "category", gridcolor: "#e6edeb", zeroline: false, tickfont: {size: 10}},
     yaxis: {rangemode: "tozero", range: [0, maxValue * 1.08], gridcolor: "#e6edeb", zeroline: false},
-    legend: {orientation: "h", y: -0.18, x: 0, font: {size: 10}},
     hovermode: "closest", dragmode: "pan",
   }, {responsive: true, displaylogo: false, modeBarButtonsToRemove: ["toImage"]});
 }
@@ -428,6 +440,13 @@ function renderBreakdownChart() {
 function renderChart() {
   if (!state.result || !window.Plotly) return;
   const breakdown = state.chartType === "breakdown";
+  const legendItems = breakdown
+    ? phaseStyles.map(([, label, color]) => [label, color])
+    : state.result.series.map((series, index) => [series.label, vehicleColors[index]]);
+  const legend = $("#chart-legend");
+  legend.innerHTML = legendItems.map(([label, color], index) => `<button type="button" class="chart-legend-item" data-legend-index="${index}" aria-pressed="${!state.hiddenSeries[state.chartType].has(index)}" title="Toggle ${escapeHtml(label)}"><i class="chart-legend-swatch" style="--legend-color:${color}" aria-hidden="true"></i>${escapeHtml(label)}</button>`).join("");
+  legend.classList.toggle("trajectory", !breakdown);
+  legend.classList.remove("hidden");
   $("#chart-x-label").textContent = breakdown ? "Vehicle" : state.unit === "km" ? "Current car mileage (1,000 km)" : "Current car age (years)";
   $("#chart-y-label").textContent = breakdown ? "Annual CO₂e (tCO₂e/year)" : "Cumulative CO₂e (tCO₂e)";
   $("#chart-x-label").classList.remove("hidden");
@@ -438,6 +457,8 @@ function renderChart() {
 }
 
 function renderResults(result) {
+  state.hiddenSeries.trajectory.clear();
+  state.hiddenSeries.breakdown.clear();
   $("#chart-placeholder").classList.add("hidden");
   $("#result-status").textContent = "ANALYSIS READY";
   $("#export-csv").disabled = false;
@@ -450,12 +471,18 @@ function renderResults(result) {
 async function compute() {
   showError("");
   if (state.pendingDefaults > 0) { showError("Please wait while vehicle defaults load."); return; }
-  const required = $$("input:required").find(input => !input.closest(".field.hidden, .secondhand-fields.hidden, #end-usage-fields.hidden") && !input.checkValidity());
+  const required = $$("input:required").find(input => {
+    if (input.closest(".field.hidden, .secondhand-fields.hidden, #end-usage-fields.hidden")) return false;
+    const value = input.valueAsNumber;
+    return !Number.isFinite(value) || value < Number(input.min) || (["annual-mileage", "ice-lifespan", "bev-lifespan"].includes(input.id) && value === 0);
+  });
   if (required) {
     selectView("setup");
     selectConfigTab(required.closest("[data-config-panel]").dataset.configPanel);
     required.closest("details")?.setAttribute("open", "");
-    required.reportValidity(); required.focus(); return;
+    if (required.value === "") required.reportValidity();
+    else showError(`Enter a valid ${required.closest("label").querySelector("span").textContent.trim().toLowerCase()}.`);
+    required.focus(); return;
   }
   const button = $("#compute");
   button.disabled = true;
@@ -498,6 +525,7 @@ async function initialize() {
     $("#annual-mileage").value = state.config.defaults.settings.km2yearsConvFactor;
     $("#ice-lifespan").value = state.config.defaults.settings.ICElifeSpan;
     $("#bev-lifespan").value = state.config.defaults.settings.BEVlifeSpan;
+    $$("input[type=number]").forEach(alignSpinner);
     renderVehicles();
     $("#add-car").addEventListener("click", () => {
       if (state.alternatives.length >= 8) { showError("A maximum of eight replacement cars can be compared."); return; }
@@ -513,18 +541,27 @@ async function initialize() {
         if (key === "secondHandCar" || key === "engineType" || key === "country") setVehicleVisibility(form);
       }
       if (event.target.id === "keep-eol") $("#end-usage-fields").classList.toggle("hidden", event.target.checked);
-      if (event.target.id === "bev-lifespan") $$('.vehicle-form').forEach(vehicleForm => {
-        if ($('[data-field="engineType"]', vehicleForm).value === "BEV") $('[data-field="batteryLifeTime"]', vehicleForm).value = event.target.value;
-      });
     });
-    document.addEventListener("input", event => { if (event.target.matches("input")) invalidateResults(); });
+    document.addEventListener("input", event => {
+      if (event.target.matches('input[type="number"]')) alignSpinner(event.target);
+      if (event.target.matches("input")) invalidateResults();
+    });
     document.addEventListener("click", async event => {
       const reset = event.target.closest(".reset-vehicle");
-      if (reset) await updateDefaults(reset.closest(".vehicle-form"), true);
+      if (reset) await updateDefaults(reset.closest(".vehicle-form"));
     });
     $("#compute").addEventListener("click", compute);
     $("#export-csv").addEventListener("click", () => exportResult("csv"));
     $("#export-xlsx").addEventListener("click", () => exportResult("xlsx"));
+    $("#chart-legend").addEventListener("click", event => {
+      const item = event.target.closest("[data-legend-index]");
+      if (!item) return;
+      const hidden = state.hiddenSeries[state.chartType];
+      const index = Number(item.dataset.legendIndex);
+      if (hidden.has(index)) hidden.delete(index);
+      else hidden.add(index);
+      renderChart();
+    });
     $$("[data-chart-type]").forEach(button => button.addEventListener("click", () => {
       state.chartType = button.dataset.chartType;
       $$("[data-chart-type]").forEach(item => { item.classList.toggle("selected", item === button); item.setAttribute("aria-pressed", item === button ? "true" : "false"); });
