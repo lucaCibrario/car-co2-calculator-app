@@ -178,6 +178,152 @@ function selectView(name) {
   if (name === "results" && $("#chart").classList.contains("js-plotly-plot")) {
     requestAnimationFrame(() => window.Plotly.Plots.resize($("#chart")));
   }
+  requestAnimationFrame(syncSplitters);
+}
+
+const splitPreferences = {setup: null, table: null};
+let plotResizeFrame = 0;
+
+function clamp(value, minimum, maximum) {
+  return Math.min(Math.max(value, minimum), maximum);
+}
+
+function schedulePlotResize() {
+  if (plotResizeFrame) return;
+  plotResizeFrame = requestAnimationFrame(() => {
+    plotResizeFrame = 0;
+    const chart = $("#chart");
+    if (window.Plotly && chart.classList.contains("js-plotly-plot") && chart.offsetWidth) window.Plotly.Plots.resize(chart);
+  });
+}
+
+function setupLimits() {
+  const workspace = $(".workspace");
+  const style = getComputedStyle(workspace);
+  const available = workspace.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - $("#workspace-splitter").offsetWidth;
+  return {minimum: 250, maximum: Math.max(250, Math.min(600, available - 340))};
+}
+
+function setSetupWidth(width) {
+  if (matchMedia("(max-width: 700px)").matches) return;
+  const {minimum, maximum} = setupLimits();
+  const value = clamp(width, minimum, maximum);
+  $(".workspace").style.setProperty("--setup-width", `${value}px`);
+  const divider = $("#workspace-splitter");
+  divider.setAttribute("aria-valuemin", String(minimum));
+  divider.setAttribute("aria-valuemax", String(maximum));
+  divider.setAttribute("aria-valuenow", String(Math.round(value)));
+  schedulePlotResize();
+}
+
+function tableLimits() {
+  const results = $(".results-column");
+  const head = $(".results-head");
+  const headMargin = parseFloat(getComputedStyle(head).marginBottom) || 0;
+  const chartMinimum = matchMedia("(max-width: 700px), (max-height: 700px)").matches ? 75 : 100;
+  const maximum = Math.max(120, results.clientHeight - head.offsetHeight - headMargin - $("#results-splitter").offsetHeight - chartMinimum);
+  return {minimum: Math.min(120, maximum), maximum};
+}
+
+function setTableHeight(height) {
+  const {minimum, maximum} = tableLimits();
+  const value = clamp(height, minimum, maximum);
+  const results = $(".results-column");
+  results.style.setProperty("--table-height", `${value}px`);
+  results.classList.add("table-resized");
+  const divider = $("#results-splitter");
+  divider.setAttribute("aria-valuemin", String(minimum));
+  divider.setAttribute("aria-valuemax", String(maximum));
+  divider.setAttribute("aria-valuenow", String(Math.round(value)));
+  schedulePlotResize();
+}
+
+function syncSplitters() {
+  const defaultSetupWidth = matchMedia("(max-width: 900px)").matches ? 285 : 305;
+  setSetupWidth(splitPreferences.setup ?? defaultSetupWidth);
+  if (!$(".results-column").offsetHeight) return;
+  if (splitPreferences.table !== null) setTableHeight(splitPreferences.table);
+  else {
+    const divider = $("#results-splitter");
+    const {minimum, maximum} = tableLimits();
+    divider.setAttribute("aria-valuemin", String(minimum));
+    divider.setAttribute("aria-valuemax", String(maximum));
+    divider.setAttribute("aria-valuenow", String(Math.round($(".table-panel").getBoundingClientRect().height)));
+    schedulePlotResize();
+  }
+}
+
+function savedSplit(key) {
+  try {
+    const value = localStorage.getItem(`eco-car-${key}-size`);
+    return value !== null && Number.isFinite(Number(value)) ? Number(value) : null;
+  } catch { return null; }
+}
+
+function saveSplit(key, value) {
+  splitPreferences[key] = value;
+  try {
+    if (value === null) localStorage.removeItem(`eco-car-${key}-size`);
+    else localStorage.setItem(`eco-car-${key}-size`, String(Math.round(value)));
+  } catch { /* Storage may be unavailable in private browsing. */ }
+}
+
+function wireSplitter(selector, axis, readSize, applySize, key, reset) {
+  const divider = $(selector);
+  divider.addEventListener("pointerdown", event => {
+    if (event.button !== 0) return;
+    event.preventDefault();
+    const pointer = event.pointerId;
+    const start = axis === "x" ? event.clientX : event.clientY;
+    const initial = readSize();
+    divider.setPointerCapture(pointer);
+    divider.classList.add("dragging");
+    document.body.classList.add("resizing");
+    document.body.style.cursor = axis === "x" ? "col-resize" : "row-resize";
+    const move = next => {
+      const coordinate = axis === "x" ? next.clientX : next.clientY;
+      applySize(initial + (coordinate - start) * (axis === "x" ? 1 : -1));
+    };
+    const stop = next => {
+      if (next.type === "pointerup") move(next);
+      saveSplit(key, readSize());
+      divider.classList.remove("dragging");
+      document.body.classList.remove("resizing");
+      document.body.style.removeProperty("cursor");
+      divider.removeEventListener("pointermove", move);
+      divider.removeEventListener("pointerup", stop);
+      divider.removeEventListener("pointercancel", stop);
+      if (divider.hasPointerCapture(pointer)) divider.releasePointerCapture(pointer);
+    };
+    divider.addEventListener("pointermove", move);
+    divider.addEventListener("pointerup", stop);
+    divider.addEventListener("pointercancel", stop);
+  });
+  divider.addEventListener("keydown", event => {
+    const direction = axis === "x" ? {ArrowLeft: -1, ArrowRight: 1} : {ArrowUp: 1, ArrowDown: -1};
+    if (!(event.key in direction)) return;
+    event.preventDefault();
+    applySize(readSize() + direction[event.key] * (event.shiftKey ? 40 : 16));
+    saveSplit(key, readSize());
+  });
+  divider.addEventListener("dblclick", reset);
+}
+
+function initializeSplitters() {
+  splitPreferences.setup = savedSplit("setup");
+  splitPreferences.table = savedSplit("table");
+  wireSplitter("#workspace-splitter", "x", () => $(".configuration").getBoundingClientRect().width, setSetupWidth, "setup", () => {
+    saveSplit("setup", null);
+    syncSplitters();
+  });
+  wireSplitter("#results-splitter", "y", () => $(".table-panel").getBoundingClientRect().height, setTableHeight, "table", () => {
+    saveSplit("table", null);
+    $(".results-column").classList.remove("table-resized");
+    $(".results-column").style.removeProperty("--table-height");
+    syncSplitters();
+  });
+  window.addEventListener("resize", syncSplitters);
+  syncSplitters();
 }
 
 function invalidateResults() {
@@ -245,6 +391,7 @@ function renderResults(result) {
   $("#export-xlsx").disabled = false;
   renderTable(result.rows);
   renderChart();
+  requestAnimationFrame(syncSplitters);
 }
 
 async function compute() {
@@ -289,6 +436,7 @@ async function exportResult(formatName) {
 
 async function initialize() {
   try {
+    initializeSplitters();
     $$("[data-config-tab]").forEach(button => button.addEventListener("click", () => selectConfigTab(button.dataset.configTab)));
     $$("[data-view]").forEach(button => button.addEventListener("click", () => selectView(button.dataset.view)));
     state.config = await (await request("/api/config")).json();

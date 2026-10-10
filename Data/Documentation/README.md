@@ -51,6 +51,8 @@ Follow these simple steps to get started:
 - Use **Replacements** to add up to eight alternatives, then review **Settings**.
 - Select **Run analysis** to update the chart and comparison table. On narrow screens, switch between **Setup** and **Results** above the workspace.
 
+Drag the separators between setup and results, or between the chart and table, to resize the panels. Double-click a separator to restore its default size. The chosen sizes are saved in your browser.
+
 Need more information? Check the full documentation below for detailed guidance.
 
 

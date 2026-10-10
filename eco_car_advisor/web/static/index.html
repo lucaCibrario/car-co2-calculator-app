@@ -6,9 +6,9 @@
   <meta name="theme-color" content="#11211f">
   <title>ECO Car Replacement Advisor</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="/assets/styles.css?v=9">
+  <link rel="stylesheet" href="/assets/styles.css?v=10">
   <script src="/assets/plotly.min.js" defer></script>
-  <script src="/assets/app.js?v=7" defer></script>
+  <script src="/assets/app.js?v=9" defer></script>
 </head>
 <body>
   <div class="app-shell">
@@ -22,7 +22,7 @@
       <button type="button" data-view="results" aria-pressed="false">Results</button>
     </nav>
     <main class="workspace" id="workspace">
-      <section class="configuration panel" aria-label="Scenario setup">
+      <section class="configuration panel" id="configuration" aria-label="Scenario setup">
         <div class="pane-heading"><div><span class="section-kicker">SCENARIO</span><h1>Vehicle setup</h1></div><span class="setup-hint">01 / 03</span></div>
         <div class="config-tabs" role="tablist" aria-label="Scenario sections">
           <button type="button" role="tab" data-config-tab="current" aria-selected="true" class="selected">Current car</button>
@@ -49,9 +49,11 @@
         </div>
         <div class="config-footer"><div id="error" class="error hidden" role="alert"></div><button class="compute-button" id="compute" type="button"><span>Run analysis</span><span aria-hidden="true">→</span></button></div>
       </section>
+      <div class="splitter workspace-splitter" id="workspace-splitter" role="separator" tabindex="0" aria-orientation="vertical" aria-label="Resize configuration and results" aria-controls="configuration results" title="Drag to resize · double-click to reset"><span aria-hidden="true"></span></div>
       <section class="results-column" id="results" aria-label="Analysis results">
         <div class="results-head"><div><span class="section-kicker">THE COMPARISON</span><h2>Results</h2></div><span class="live-pill" id="result-status">AWAITING INPUT</span></div>
         <div class="panel chart-panel"><div class="chart-header"><div><span class="section-kicker">EMISSIONS OVER TIME</span><h3>Life-cycle trajectory</h3></div><div class="segmented" role="group" aria-label="Chart units"><button type="button" data-unit="years" class="selected" aria-pressed="true">Years</button><button type="button" data-unit="km" aria-pressed="false">Kilometres</button></div></div><div class="chart-stage"><div id="chart" role="img" aria-label="Life-cycle emissions chart"></div><div id="chart-placeholder" class="chart-placeholder"><strong>Ready to compare</strong><span>Set your vehicles and run the analysis.</span></div></div></div>
+        <div class="splitter results-splitter" id="results-splitter" role="separator" tabindex="0" aria-orientation="horizontal" aria-label="Resize chart and comparison table" aria-controls="chart results-body" title="Drag to resize · double-click to reset"><span aria-hidden="true"></span></div>
         <div class="panel table-panel"><div class="table-header"><div><span class="section-kicker">AT END OF USAGE</span><h3>Vehicle comparison</h3></div><div class="export-actions"><button id="export-csv" type="button" disabled>CSV ↓</button><button id="export-xlsx" type="button" disabled>Excel ↓</button></div></div><div class="table-scroll"><table><thead><tr><th>Vehicle</th><th>Details</th><th>EoU − change<br><small>tCO₂</small></th><th>Savings<br><small>tCO₂</small></th><th>Yearly<br><small>tCO₂ / year</small></th><th>Production</th><th>EoL</th><th>Use</th><th>Maintenance</th></tr></thead><tbody id="results-body"><tr><td colspan="9" class="empty-table">Results will appear after analysis.</td></tr></tbody></table></div></div>
       </section>
     </main>
