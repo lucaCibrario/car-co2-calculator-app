@@ -157,6 +157,29 @@ function showError(message) {
   error.classList.toggle("hidden", !message);
 }
 
+function selectConfigTab(name) {
+  $$("[data-config-tab]").forEach(button => {
+    const active = button.dataset.configTab === name;
+    button.classList.toggle("selected", active);
+    button.setAttribute("aria-selected", String(active));
+  });
+  $$("[data-config-panel]").forEach(panel => panel.classList.toggle("hidden", panel.dataset.configPanel !== name));
+  $(".setup-hint").textContent = `${String(["current", "alternatives", "settings"].indexOf(name) + 1).padStart(2, "0")} / 03`;
+  $(".config-content").scrollTop = 0;
+}
+
+function selectView(name) {
+  $(".workspace").dataset.view = name;
+  $$("[data-view]").forEach(button => {
+    const active = button.dataset.view === name;
+    button.classList.toggle("selected", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  if (name === "results" && $("#chart").classList.contains("js-plotly-plot")) {
+    requestAnimationFrame(() => window.Plotly.Plots.resize($("#chart")));
+  }
+}
+
 function invalidateResults() {
   const hadResult = Boolean(state.result);
   state.scenario = null;
@@ -187,24 +210,28 @@ function renderChart() {
   const km = state.unit === "km";
   const colors = ["#84e4b0", "#5c7cfa", "#e8a567", "#a78bfa", "#ee83a8", "#50bacc", "#d5bd69", "#91c476", "#e9a8df"];
   const traces = [];
-  const shapes = [];
+  const current = result.series[0];
   result.series.forEach((car, index) => {
     const xs = km ? car.xKm.map(value => value / 1000) : car.xYears;
     const lastSolid = car.xKm.findLastIndex(value => value <= car.lifeSpanKm);
     const split = Math.max(lastSolid, 0);
+    const acquisitionKm = car.xKm[0];
+    const currentIndex = current.xKm.findIndex(value => value >= acquisitionKm);
+    const baseline = index === 0 ? 0 : current.emissions[Math.max(currentIndex, 0)];
+    traces.push({x: [xs[0], xs[0]], y: [baseline, car.emissions[0]], type: "scatter", mode: "lines", showlegend: false, line: {color: colors[index], width: 3}, hoverinfo: "skip"});
     traces.push({x: xs.slice(0, split + 1), y: car.emissions.slice(0, split + 1), type: "scatter", mode: "lines", name: car.label, line: {color: colors[index], width: 3}, hovertemplate: `%{x:,.1f}<br>%{y:,.2f} tCO₂e<extra>${escapeHtml(car.label)}</extra>`});
     if (split < xs.length - 1) traces.push({x: xs.slice(split), y: car.emissions.slice(split), type: "scatter", mode: "lines", showlegend: false, line: {color: colors[index], width: 2, dash: "dash"}, hoverinfo: "skip"});
-    shapes.push({type: "line", x0: xs[0], x1: xs[0], y0: index === 0 ? 0 : result.emissionsAtReplacement, y1: car.emissions[0], line: {color: colors[index], width: 2}});
   });
   const end = km ? result.endKm / 1000 : result.endYears;
   const range = km ? result.kmRange : result.yearsRange;
+  const paddedRange = [range[0] - (range[1] - range[0]) * 0.025, range[1]];
   window.Plotly.react("chart", traces, {
     paper_bgcolor: "transparent", plot_bgcolor: "transparent", font: {family: "Inter, Segoe UI, sans-serif", color: "#677a79", size: 12},
-    margin: {l: 62, r: 18, t: 25, b: 54}, hovermode: "x unified", dragmode: "pan",
-    xaxis: {title: km ? "Current car mileage (1,000 km)" : "Current car age (years)", range, gridcolor: "#e6edeb", zeroline: false},
+    margin: {l: 62, r: 18, t: 16, b: 58}, hovermode: "x unified", dragmode: "pan",
+    xaxis: {title: km ? "Current car mileage (1,000 km)" : "Current car age (years)", range: paddedRange, gridcolor: "#e6edeb", zeroline: false},
     yaxis: {title: "tCO₂e", range: result.yRange, gridcolor: "#e6edeb", zeroline: false},
-    legend: {orientation: "h", y: -0.25, x: 0, font: {size: 11}},
-    shapes: [...shapes, {type: "line", x0: end, x1: end, y0: result.yRange[0], y1: result.yRange[1], line: {color: "#92a2a0", width: 1.5, dash: "dot"}}],
+    legend: {orientation: "h", y: -0.13, x: 0, font: {size: 10}},
+    shapes: [{type: "line", x0: end, x1: end, y0: result.yRange[0], y1: result.yRange[1], line: {color: "#92a2a0", width: 1.5, dash: "dot"}}],
     annotations: [{x: end, y: result.yRange[1], text: "End of usage", showarrow: false, xanchor: "right", yanchor: "top", font: {size: 11, color: "#516663"}}],
   }, {responsive: true, displaylogo: false, scrollZoom: true, modeBarButtonsToRemove: ["toImage"]});
 }
@@ -218,15 +245,20 @@ function renderResults(result) {
   const ranked = result.rows.slice(1).sort((a, b) => b.savingsCo2 - a.savingsCo2);
   const best = ranked[0];
   $("#best-saving").innerHTML = `${format(best.savingsCo2)} <small>tCO₂e</small>`;
-  $("#insight-copy").textContent = `${best.label} · ${best.details} compared with keeping your current car through ${format(result.endKm, 0)} km.`;
+  $("#insight-copy").textContent = `${best.label} · ${best.details} · ${format(result.endKm, 0)} km`;
   renderChart();
 }
 
 async function compute() {
   showError("");
   if (state.pendingDefaults > 0) { showError("Please wait while vehicle defaults load."); return; }
-  const required = $$("input:required").find(input => !input.closest(".hidden") && !input.checkValidity());
-  if (required) { required.closest("details")?.setAttribute("open", ""); required.reportValidity(); required.focus(); return; }
+  const required = $$("input:required").find(input => !input.closest(".field.hidden, .secondhand-fields.hidden, #end-usage-fields.hidden") && !input.checkValidity());
+  if (required) {
+    selectView("setup");
+    selectConfigTab(required.closest("[data-config-panel]").dataset.configPanel);
+    required.closest("details")?.setAttribute("open", "");
+    required.reportValidity(); required.focus(); return;
+  }
   const button = $("#compute");
   button.disabled = true;
   button.firstElementChild.textContent = "Calculating…";
@@ -236,9 +268,10 @@ async function compute() {
     const response = await request("/api/analyze", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify(scenario)});
     state.result = await response.json();
     state.scenario = scenario;
+    if (matchMedia("(max-width: 700px)").matches) selectView("results");
     renderResults(state.result);
   } catch (error) { invalidateResults(); showError(error.message); }
-  finally { button.disabled = false; button.firstElementChild.textContent = "Run carbon analysis"; }
+  finally { button.disabled = false; button.firstElementChild.textContent = "Run analysis"; }
 }
 
 async function exportResult(formatName) {
@@ -258,6 +291,8 @@ async function exportResult(formatName) {
 
 async function initialize() {
   try {
+    $$("[data-config-tab]").forEach(button => button.addEventListener("click", () => selectConfigTab(button.dataset.configTab)));
+    $$("[data-view]").forEach(button => button.addEventListener("click", () => selectView(button.dataset.view)));
     state.config = await (await request("/api/config")).json();
     state.current = structuredClone(state.config.defaults.current);
     state.alternatives = [structuredClone(state.config.defaults.replacement)];

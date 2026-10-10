@@ -47,9 +47,9 @@ The application is intended for FAAS members. A remote deployment requires an ap
 ## Quick Start
 Follow these simple steps to get started:
 
-- Fill in your current car details – including mileage, segment, fuel type, and energy mix.
-- Define the new car(s) – add one or more vehicles to compare, specifying engine type, usage patterns, and optional advanced settings.
-- Click **Run carbon analysis** – the app will generate an interactive plot and comparison table.
+- Use **Current car** for mileage, segment, powertrain, and electricity mix.
+- Use **Replacements** to add up to eight alternatives, then review **Settings**.
+- Select **Run analysis** to update the chart and comparison table. On narrow screens, switch between **Setup** and **Results** above the workspace.
 
 Need more information? Check the full documentation below for detailed guidance.
 
@@ -146,7 +146,7 @@ These are the settings for defining the current car that may be replaced.
 ### **New Car(s)**
 
 This section allows defining the alternative(s) to the current car for evaluation.  
-Select **Add another replacement car** to compare up to eight alternatives. Use **Remove** on a card to discard it. Each car has segment and powertrain selectors; **Advanced vehicle inputs** expands the remaining fields.
+Select **Add replacement car** to compare up to eight alternatives. Use **Remove** on a card to discard it. Each car has segment and powertrain selectors; **Advanced vehicle inputs** expands the remaining fields.
 
 The available parameters are listed below (the description of each field can be found in the [Current Car Details](#current-car-details) section):
 
@@ -202,17 +202,17 @@ These additional settings affect the carbon footprint computation.
   This affects the degradation of fuel/electric consumption over time.
 
 - **Vehicle lifespan assumptions**
-  Expand this section under **Analysis settings**.
+  Expand this section under **Settings**.
   - **ICE Car Life Span (km)**: Expected lifespan of an ICE car.  
   - **BEV Car Life Span (km)**: Expected lifespan of a BEV.    
-  Changes apply when **Run carbon analysis** is selected. Reloading the page restores workbook defaults.
+  Changes apply when **Run analysis** is selected. Reloading the page restores workbook defaults.
 
 
 
 ## **Carbon Footprint Analysis**
 
 This is the output section, where **CO₂ Footprint History** is displayed and analyzed to make comparisons and find the best alternative.  
-The computation starts when **Run carbon analysis** is selected.
+The computation starts when **Run analysis** is selected.
 
 The available units of measure for the analysis are:
 - **years**
@@ -335,7 +335,7 @@ The **CSV** and **Excel** buttons above the comparison table download the input 
 ---
 
 ## **Notes**
-- Every time an input changes, **Run carbon analysis** must be selected to update results. Stale results are cleared automatically.
+- Every time an input changes, **Run analysis** must be selected to update results. Stale results are cleared automatically.
 - **Tip:** Hover over editable fields and column headers in the app for detailed tooltips.
 
 

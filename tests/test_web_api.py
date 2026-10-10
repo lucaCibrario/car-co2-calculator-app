@@ -91,7 +91,7 @@ class WebApiTest(unittest.TestCase):
         ):
             self.assertEqual(self.client.get(route).status_code, 200, route)
         guide = self.client.get("/guide").text
-        self.assertIn("Run carbon analysis", guide)
+        self.assertIn("Run analysis", guide)
         self.assertNotIn("unpkg.com", guide)
         self.assertNotIn(".exe", guide)
 
