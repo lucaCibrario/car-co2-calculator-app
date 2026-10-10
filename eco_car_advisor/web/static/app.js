@@ -197,11 +197,15 @@ function schedulePlotResize() {
   });
 }
 
-function setupLimits() {
+function setupAvailableWidth() {
   const workspace = $(".workspace");
   const style = getComputedStyle(workspace);
-  const available = workspace.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - $("#workspace-splitter").offsetWidth;
-  return {minimum: 250, maximum: Math.max(250, Math.min(600, available - 340))};
+  return workspace.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight) - $("#workspace-splitter").offsetWidth;
+}
+
+function setupLimits() {
+  const available = setupAvailableWidth();
+  return {minimum: 250, maximum: Math.max(250, Math.min(760, available - 340))};
 }
 
 function setSetupWidth(width) {
@@ -239,8 +243,7 @@ function setTableHeight(height) {
 }
 
 function syncSplitters() {
-  const defaultSetupWidth = matchMedia("(max-width: 900px)").matches ? 285 : 305;
-  setSetupWidth(splitPreferences.setup ?? defaultSetupWidth);
+  setSetupWidth((splitPreferences.setup ?? 0.37) * setupAvailableWidth());
   if (!$(".results-column").offsetHeight) return;
   if (splitPreferences.table !== null) setTableHeight(splitPreferences.table);
   else {
@@ -255,16 +258,20 @@ function syncSplitters() {
 
 function savedSplit(key) {
   try {
-    const value = localStorage.getItem(`eco-car-${key}-size`);
-    return value !== null && Number.isFinite(Number(value)) ? Number(value) : null;
+    const value = localStorage.getItem(key === "setup" ? "eco-car-setup-ratio" : "eco-car-table-size");
+    if (value === null || !Number.isFinite(Number(value))) return null;
+    const parsed = Number(value);
+    return key === "setup" && (parsed <= 0 || parsed >= 1) ? null : parsed;
   } catch { return null; }
 }
 
 function saveSplit(key, value) {
-  splitPreferences[key] = value;
+  const stored = key === "setup" && value !== null ? value / setupAvailableWidth() : value;
+  splitPreferences[key] = stored;
   try {
-    if (value === null) localStorage.removeItem(`eco-car-${key}-size`);
-    else localStorage.setItem(`eco-car-${key}-size`, String(Math.round(value)));
+    const storageKey = key === "setup" ? "eco-car-setup-ratio" : "eco-car-table-size";
+    if (stored === null) localStorage.removeItem(storageKey);
+    else localStorage.setItem(storageKey, String(stored));
   } catch { /* Storage may be unavailable in private browsing. */ }
 }
 
