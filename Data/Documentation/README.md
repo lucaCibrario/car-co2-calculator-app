@@ -239,6 +239,7 @@ Each carbon footprint history starts with a **step**, whose height represents th
 This table provides **quantitative data** on carbon footprint metrics at the **End-of-Usage (EoU)** point, enabling side-by-side comparisons of different vehicle options. Each row corresponds to either the current car or a new alternative under evaluation.
 
 The table is automatically updated based on user settings such as intended usage duration, driving profile, and maintenance assumptions.
+The **Best** row has the greatest positive CO₂ saving. If every replacement increases emissions, **Current** is marked as the best choice. Vehicle names remain visible while the table is scrolled horizontally.
 
 #### **Columns Description**
 

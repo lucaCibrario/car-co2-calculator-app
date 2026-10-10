@@ -191,8 +191,6 @@ function invalidateResults() {
     if (window.Plotly) window.Plotly.purge("chart");
     $("#chart-placeholder").classList.remove("hidden");
     $("#results-body").innerHTML = '<tr><td colspan="9" class="empty-table">Results will appear after analysis.</td></tr>';
-    $("#best-saving").innerHTML = '— <small>tCO₂e</small>';
-    $("#insight-copy").textContent = "Run your analysis to compare the updated vehicle inputs.";
   }
 }
 
@@ -201,7 +199,11 @@ function format(value, digits = 1) {
 }
 
 function renderTable(rows) {
-  $("#results-body").innerHTML = rows.map((row, index) => `<tr><td><span class="row-marker" style="--row-color: ${["#84e4b0", "#5c7cfa", "#e8a567", "#a78bfa", "#ee83a8", "#50bacc", "#d5bd69", "#91c476", "#e9a8df"][index]}"></span>${escapeHtml(row.label)}</td><td>${escapeHtml(row.details)}</td><td>${format(row.changeCo2)}</td><td class="${row.savingsCo2 > 0 ? "positive" : ""}">${format(row.savingsCo2)}</td><td>${format(row.yearlyCo2, 2)}</td><td>${format(row.productionPercent)}%</td><td>${format(row.eolPercent)}%</td><td>${format(row.usePercent)}%</td><td>${row.maintenancePercent === null ? "—" : `${format(row.maintenancePercent)}%`}</td></tr>`).join("");
+  let bestIndex = 0;
+  rows.forEach((row, index) => {
+    if (index > 0 && row.savingsCo2 > (bestIndex === 0 ? 0 : rows[bestIndex].savingsCo2)) bestIndex = index;
+  });
+  $("#results-body").innerHTML = rows.map((row, index) => `<tr class="${index === bestIndex ? "best-row" : ""}"><td><span class="row-marker" style="--row-color: ${["#84e4b0", "#5c7cfa", "#e8a567", "#a78bfa", "#ee83a8", "#50bacc", "#d5bd69", "#91c476", "#e9a8df"][index]}"></span>${escapeHtml(row.label)}${index === bestIndex ? '<span class="best-badge">Best</span>' : ""}</td><td>${escapeHtml(row.details)}</td><td>${format(row.changeCo2)}</td><td class="${row.savingsCo2 > 0 ? "positive" : ""}">${format(row.savingsCo2)}</td><td>${format(row.yearlyCo2, 2)}</td><td>${format(row.productionPercent)}%</td><td>${format(row.eolPercent)}%</td><td>${format(row.usePercent)}%</td><td>${row.maintenancePercent === null ? "—" : `${format(row.maintenancePercent)}%`}</td></tr>`).join("");
 }
 
 function renderChart() {
@@ -242,10 +244,6 @@ function renderResults(result) {
   $("#export-csv").disabled = false;
   $("#export-xlsx").disabled = false;
   renderTable(result.rows);
-  const ranked = result.rows.slice(1).sort((a, b) => b.savingsCo2 - a.savingsCo2);
-  const best = ranked[0];
-  $("#best-saving").innerHTML = `${format(best.savingsCo2)} <small>tCO₂e</small>`;
-  $("#insight-copy").textContent = `${best.label} · ${best.details} · ${format(result.endKm, 0)} km`;
   renderChart();
 }
 
